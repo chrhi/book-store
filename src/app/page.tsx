@@ -45,7 +45,7 @@ export default function Home() {
               Otsikko tänne
             </h1>
             <p className="text-white text-2xl">Tässä tila lyhyelle tekstille</p>
-            <button className="bg-[#67BDFF] p-4 px-6 rounded-xl font-bold text-[16px] p ">
+            <button className="bg-[#67BDFF] hover:bg-[#4ba8f0] w-[154px] h-[50px] py-2 px-4 rounded-2xl font-bold text-[16px]  ">
               Lue lisää »
             </button>
           </div>
