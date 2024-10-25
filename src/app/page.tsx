@@ -59,7 +59,7 @@ export default function Home() {
         <div className="w-full h-[30px] flex items-center justify-end ">
           <span className="text-2xl ">Näytä kaikki</span>
         </div>
-        <div className="w-full my-4  grid grid-cols-6  min-h-[560px] h-fit gap-x-4">
+        <div className="w-full my-4  grid grid-cols-6  h-[600px]  gap-x-4">
           {DATA.map((item) => {
             return (
               <Card
