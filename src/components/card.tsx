@@ -26,7 +26,7 @@ const Card: FC<CardProps> = ({ image, price, subTitle, title }) => {
           <span className="text-3xl font-bold playfair-display">{price}</span>
         </div>
 
-        <button className="w-full p-4 bg-[#67BDFF] rounded-b-2xl font-bold">
+        <button className="w-full p-4 bg-[#67BDFF] cursor-pointer hover:bg-[#4ba8f0] rounded-b-2xl font-bold">
           Lisää ostoskoriin »
         </button>
       </div>

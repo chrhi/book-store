@@ -73,39 +73,43 @@ export default function Home() {
           })}
         </div>
       </MaxWidthWrapper>
-      <MaxWidthWrapper className="h-fit bg-[#F5F5F5] py-4 ">
-        <div className="w-full h-[50px] flex items-center justify-center gap-x-4">
-          <h2 className="text-black text-[32px] font-bold playfair-display">
-            PIKAHAKU
-          </h2>
-        </div>
-        <div className=" w-full my-4  flex flex-col items-center min-h-[260px] h-fit gap-x-4">
-          <div className="h-[50px] w-[600px] flex items-center justify-center gap-x-2">
-            <span className="text-black font-bold text-2xl">Kirja</span>
-            <input className="border-black w-[385px] bg-white border-[1px] h-[32px] " />
+      <MaxWidthWrapper className="h-fit    ">
+        <div className="h-fit w-full bg-[#F5F5F5]  py-8  rounded-2xl">
+          <div className="w-full h-[50px] flex items-center justify-center gap-x-4">
+            <h2 className="text-black text-[32px] font-bold playfair-display">
+              PIKAHAKU
+            </h2>
           </div>
-          <div className="h-[50px] w-[600px]  flex items-center justify-center gap-x-2 mr-[37px]">
-            <span className="text-black font-bold text-2xl">Kirjailija</span>
-            <input className="border-black w-[385px] bg-white border-[1px] h-[32px] " />
-          </div>
-          <div className="h-[50px] w-[600px]  flex items-center justify-center gap-x-2">
-            <span className="text-black font-bold text-2xl">Kieli</span>
-            <input
-              value={"Valitse kieli"}
-              className="border-black w-[385px]  bg-white border-[1px] h-[32px] "
-            />
-          </div>
+          <div className=" w-full my-4  flex flex-col items-center min-h-[260px] h-fit gap-x-4">
+            <div className="h-[50px] w-[600px] flex items-center justify-center gap-x-2">
+              <span className="text-black font-bold text-2xl">Kirja</span>
+              <input className="border-black w-[385px] bg-white border-[1px] h-[32px] " />
+            </div>
+            <div className="h-[50px] w-[600px]  flex items-center justify-center gap-x-2 mr-[37px]">
+              <span className="text-black font-bold text-2xl">Kirjailija</span>
+              <input className="border-black w-[385px] bg-white border-[1px] h-[32px] " />
+            </div>
+            <div className="h-[50px] w-[600px]  flex items-center justify-center gap-x-2">
+              <span className="text-black font-bold text-2xl">Kieli</span>
+              <input
+                value={"Valitse kieli"}
+                className="border-black w-[385px] px-2 bg-white border-[1px] h-[32px] "
+              />
+            </div>
 
-          <div className="w-[600px]  h-[100px]  flex items-center justify-end pr-20 ">
-            <button className="bg-[#67BDFF] w-[154px] p-4 px-6  ">Hae</button>
+            <div className="w-[600px]  h-[100px]  flex items-center justify-end pr-20 ">
+              <button className="bg-[#67BDFF] cursor-pointer hover:bg-[#4ba8f0] w-[154px] p-4 px-6  ">
+                Hae
+              </button>
+            </div>
           </div>
         </div>
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="my-8">
         <div className="w-full h-[425px] grid grid-cols-2 gap-x-8 ">
-          <div className="w-full h-full bg-[#F5F5F5] flex flex-col gap-y-4 p-4 rounded-2xl">
-            <h1 className="text-black font-bold playfair-display">
+          <div className="w-full h-full bg-[#F5F5F5] flex flex-col gap-y-4 p-8 rounded-2xl">
+            <h1 className="text-black text-3xl font-bold playfair-display">
               Palvelemme
             </h1>
             <span>
@@ -141,29 +145,31 @@ export default function Home() {
 
       <MaxWidthWrapper>
         <div
-          className="w-full h-[425px] p-8 rounded-2xl relative grid grid-cols-2"
+          className="w-full h-[525px] p-8 rounded-2xl relative grid grid-cols-2"
           style={{
             backgroundImage: "url('/books-lib.png')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
-          <div className=" absolute inset-0 bg-black/35 z-[-1]" />
-          <div className="w-full h-full flex flex-col gap-y-4">
-            <h2 className="text-white text-[64px]">Salpakirja Oy</h2>
+          <div className=" absolute inset-0 rounded-2xl bg-black/55 z-[1]" />
+          <div className="w-full h-full flex  flex-col z-[2] gap-y-4">
+            <h2 className="text-white text-[64px] playfair-display">
+              Salpakirja Oy
+            </h2>
 
-            <p className="text-white">
+            <p className="text-white font-bold text-md my-2">
               Salpakirja Oy on kirjakauppa ja antikvariaatti, jonka kaikki
               tuotteet löytyvät myös verkkokaupoista www.salpakirja.net ja
               www.antikvaari.fi. Salpakirjan  Kirjaspotti -nimellä toimivat
               liikkeet löydät Kotkasta ja Haminasta.
             </p>
-            <span className="text-white">
+            <span className="text-white font-bold text-md my-2">
               Vuoden 2024 messukalenteri pitää sisällään noin 150 myyntipäivää,
               tapahtu mamyynnin aikataulun löydät Messukalenteri välilehdeltä
               tästä.
             </span>
-            <p className="text-white">
+            <p className="text-white font-bold text-md my-2">
               Uusien kirjojen lisäksi löydät liikkeestämme, myös hyväkuntoiset
               käytetyt kirjat. Antikvariaatti Salpakirjan laajin valikoima
               löytyy Kirjaspotin Haminan liikkeestä. Antikvariaatti Salpakirjan
@@ -179,9 +185,11 @@ export default function Home() {
           <MaxWidthWrapper>
             <div className="bg-[#F5F5F5] text-[#757575] w-full h-[478px] grid grid-cols-2">
               <div className="w-full h-full flex flex-col gap-y-4">
-                <span className="text-[#757575] text-3xl">Salpakirja Oy</span>
+                <span className="text-[#757575] font-bold playfair-display text-5xl">
+                  Salpakirja Oy
+                </span>
 
-                <span>Salpakirja Oy © 2024</span>
+                <span className="mt-4">Salpakirja Oy © 2024</span>
                 <span>
                   Tietosuojaseloste 
                   <br />
@@ -214,7 +222,6 @@ export default function Home() {
                   <br />
                   kirjaspotti.kotka@gmail.com, puh. 041 314 7501
                 </span>{" "}
-                */
               </div>
             </div>
           </MaxWidthWrapper>
@@ -222,24 +229,4 @@ export default function Home() {
       </div>
     </>
   );
-}
-
-{
-}
-
-{
-  /* <div className="bg-[#F5F5F5] text-[#757575] w-full h-[478px] grid grid-cols-2">
-        <div className="w-full h-full flex flex-col gap-y-4">
-          <span className="text-[#757575] text-2xl">Salpakirja Oy</span>
-
-          <span>Salpakirja Oy © 2024</span>
-          <span>
-            Tietosuojaseloste 
-            <br />
-            Evästeet
-          </span>
-        </div>
-
-        <div className="w-full h-full flex flex-col"></div>
-      </div> */
 }
