@@ -24,7 +24,7 @@ export default function Home() {
             "TOIMITUSEHDOT",
           ].map((item) => {
             return (
-              <Link key={item} href={"/"}>
+              <Link key={item} href={"/"} className="font-bold ">
                 {item}
               </Link>
             );
@@ -41,7 +41,9 @@ export default function Home() {
           }}
         >
           <div className="flex flex-col gap-y-4 items-end">
-            <h1 className="text-4xl text-[64px] text-white">Otsikko tänne</h1>
+            <h1 className="text-4xl text-[64px] text-white playfair-display">
+              Otsikko tänne
+            </h1>
             <p className="text-white">Tässä tila lyhyelle tekstille</p>
             <button className="bg-[#67BDFF] p-4 px-6 rounded-xl ">
               Lue lisää »
@@ -51,7 +53,7 @@ export default function Home() {
       </MaxWidthWrapper>
       <MaxWidthWrapper className="h-fit ">
         <div className="w-full h-[50px] flex items-center justify-between gap-x-4">
-          <h2 className="text-black text-[32px]">UUSIMMAT</h2>
+          <h2 className="text-black text-[32px] playfair-display">UUSIMMAT</h2>
           <div className="h-[1px] w-full bg-black" />
         </div>
         <div className="w-full my-4  grid grid-cols-6  min-h-[560px] h-fit gap-x-4">
@@ -70,7 +72,9 @@ export default function Home() {
       </MaxWidthWrapper>
       <MaxWidthWrapper className="h-fit bg-[#F5F5F5] py-4 ">
         <div className="w-full h-[50px] flex items-center justify-center gap-x-4">
-          <h2 className="text-black text-[32px] font-bold">PIKAHAKU</h2>
+          <h2 className="text-black text-[32px] font-bold playfair-display">
+            PIKAHAKU
+          </h2>
         </div>
         <div className=" w-full my-4  flex flex-col items-center min-h-[260px] h-fit gap-x-4">
           <div className="h-[50px] w-[600px] flex items-center justify-center gap-x-2">
@@ -98,7 +102,9 @@ export default function Home() {
       <MaxWidthWrapper className="my-8">
         <div className="w-full h-[425px] grid grid-cols-2 gap-x-8 ">
           <div className="w-full h-full bg-[#F5F5F5] flex flex-col gap-y-4 p-4 rounded-2xl">
-            <h1 className="text-black font-bold">Palvelemme</h1>
+            <h1 className="text-black font-bold playfair-display">
+              Palvelemme
+            </h1>
             <span>
               Salpakirja Oy asiakaspalvelu <br /> salpakirja@gmail.com tai puh.
               050 339 5724
@@ -170,7 +176,7 @@ export default function Home() {
           <MaxWidthWrapper>
             <div className="bg-[#F5F5F5] text-[#757575] w-full h-[478px] grid grid-cols-2">
               <div className="w-full h-full flex flex-col gap-y-4">
-                <span className="text-[#757575] text-2xl">Salpakirja Oy</span>
+                <span className="text-[#757575] text-3xl">Salpakirja Oy</span>
 
                 <span>Salpakirja Oy © 2024</span>
                 <span>
@@ -180,7 +186,7 @@ export default function Home() {
                 </span>
               </div>
 
-              <div className="w-full h-full">
+              <div className="w-full h-full flex flex-col gap-y-4">
                 <span className="text-[#757575]">Yhteystiedot:</span>
                 <span className="text-[#757575]">
                   Salpakirja Oy asiakaspalvelu
