@@ -33,7 +33,7 @@ export default function Home() {
       </div>
       <MaxWidthWrapper>
         <div
-          className="w-full h-[269px] flex rounded-2xl items-center justify-end gap-y-4 relative px-4"
+          className="w-full h-[389px] flex rounded-2xl items-center justify-end gap-y-4 relative px-4"
           style={{
             backgroundImage: "url('/books-y.png')",
             backgroundSize: "cover",
@@ -41,20 +41,23 @@ export default function Home() {
           }}
         >
           <div className="flex flex-col gap-y-4 items-end">
-            <h1 className="text-4xl text-[64px] text-white playfair-display">
+            <h1 className="text-8xl  text-white playfair-display">
               Otsikko tänne
             </h1>
-            <p className="text-white">Tässä tila lyhyelle tekstille</p>
-            <button className="bg-[#67BDFF] p-4 px-6 rounded-xl ">
+            <p className="text-white text-2xl">Tässä tila lyhyelle tekstille</p>
+            <button className="bg-[#67BDFF] p-4 px-6 rounded-xl font-bold text-[16px] p ">
               Lue lisää »
             </button>
           </div>
         </div>
       </MaxWidthWrapper>
       <MaxWidthWrapper className="h-fit ">
-        <div className="w-full h-[50px] flex items-center justify-between gap-x-4">
+        <div className="w-full my-4 h-[50px] flex items-center justify-between gap-x-4">
           <h2 className="text-black text-[32px] playfair-display">UUSIMMAT</h2>
           <div className="h-[1px] w-full bg-black" />
+        </div>
+        <div className="w-full h-[30px] flex items-center justify-end ">
+          <span className="text-2xl ">Näytä kaikki</span>
         </div>
         <div className="w-full my-4  grid grid-cols-6  min-h-[560px] h-fit gap-x-4">
           {DATA.map((item) => {
