@@ -89,7 +89,7 @@ export default function Home() {
             />
           </div>
 
-          <div className="w-[600px]  h-[100px]  flex items-center justify-end pr-12 ">
+          <div className="w-[600px]  h-[100px]  flex items-center justify-end pr-20 ">
             <button className="bg-[#67BDFF] w-[154px] p-4 px-6  ">Hae</button>
           </div>
         </div>
