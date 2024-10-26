@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
+import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/header";
 
 export const metadata: Metadata = {
   title: "Otsikko tänne",
@@ -14,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` antialiased min-h-screen h-fit`}>{children}</body>
+      <body className={` antialiased min-h-screen h-fit`}>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

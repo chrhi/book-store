@@ -1,35 +1,9 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/product-reel";
-import Link from "next/link";
 
 export default function Home() {
   return (
     <>
-      <div className="w-full h-[190px] bg-[#FFC767] flex items-center">
-        <MaxWidthWrapper className="h-full flex items-center justify-between">
-          <div className=" h-[70px] w-[200px]  md:h-[117px] md:w-[367px] bg-white"></div>
-
-          <span>Ostoskori</span>
-        </MaxWidthWrapper>
-      </div>
-      <div className="w-full min-h-[50px] h-fit py-4 ">
-        <MaxWidthWrapper className="h-full flex flex-wrap items-center justify-start gap-4">
-          {[
-            "ETUSIVU",
-            "AIHEALUEET",
-            "OSTAMME",
-            "MESSUKALENTERI",
-            "MYYNTIPISTEET",
-            "TOIMITUSEHDOT",
-          ].map((item) => {
-            return (
-              <Link key={item} href={"/"} className="font-extrabold ">
-                {item}
-              </Link>
-            );
-          })}
-        </MaxWidthWrapper>
-      </div>
       <MaxWidthWrapper>
         <div
           className="w-full h-[389px] flex rounded-2xl items-center justify-start md:justify-end gap-y-4 relative px-4 md:px-12"
@@ -53,14 +27,7 @@ export default function Home() {
         </div>
       </MaxWidthWrapper>
       <MaxWidthWrapper className="h-fit ">
-        <div className="w-full my-4 h-[50px] flex items-center justify-between gap-x-4">
-          <h2 className="text-black text-[40px] playfair-display">UUSIMMAT</h2>
-          <div className="h-[0.5px] w-full bg-black" />
-        </div>
-        <div className="w-full h-[30px] flex items-center justify-start md:justify-end ">
-          <span className="text-2xl ">Näytä kaikki</span>
-        </div>
-        <ProductReel />
+        <ProductReel title={"UUSIMMAT"} />
       </MaxWidthWrapper>
       <MaxWidthWrapper className="h-fit    ">
         <div className="h-fit w-full bg-[#F5F5F5]  py-8  rounded-2xl">
@@ -168,54 +135,6 @@ export default function Home() {
           </div>
         </div>
       </MaxWidthWrapper>
-      <div className="w-full h-fit my-8">
-        <div className="w-full h-[11px] bg-[#FFC767]"></div>
-        <div className="w-full bg-[#F5F5F5] pt-4">
-          <MaxWidthWrapper>
-            <div className="bg-[#F5F5F5] text-[#757575] w-full min-h-[478px] h-fit grid gap-4  grid-cols-1 md:grid-cols-2">
-              <div className="w-full h-full flex flex-col gap-y-4">
-                <span className="text-[#757575] font-bold playfair-display text-5xl">
-                  Salpakirja Oy
-                </span>
-
-                <span className="mt-4">Salpakirja Oy © 2024</span>
-                <span>
-                  Tietosuojaseloste 
-                  <br />
-                  Evästeet
-                </span>
-              </div>
-
-              <div className="w-full h-full flex flex-col gap-y-4">
-                <span className="text-[#757575]">Yhteystiedot:</span>
-                <span className="text-[#757575]">
-                  Salpakirja Oy asiakaspalvelu
-                  <br />
-                  salpakirja@gmail.com tai puh. 050 339 5724
-                </span>
-                <span className="text-[#757575]">
-                  Kirjaspotti Hamina
-                  <br />
-                  Avoinna ma, ke-pe klo 9-17, ti klo 8-16
-                  <br />
-                  Raatihuoneentori 16, 49400 Hamina
-                  <br />
-                  salpakirja@gmail.com, puh. 050 339 5724
-                </span>
-                <span className="text-[#757575]">
-                  Kirjaspotti Kotka
-                  <br />
-                  Avoinna ma-pe klo 10.15-18, la klo 10.15-16, su suljettu.
-                  <br />
-                  Keskuskatu 10, 48100 Kotka, Kauppakeskus Pasaati katutaso
-                  <br />
-                  kirjaspotti.kotka@gmail.com, puh. 041 314 7501
-                </span>{" "}
-              </div>
-            </div>
-          </MaxWidthWrapper>
-        </div>
-      </div>
     </>
   );
 }
