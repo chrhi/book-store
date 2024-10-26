@@ -10,7 +10,7 @@ interface CardProps {
 
 const Card: FC<CardProps> = ({ image, price, subTitle, title, date }) => {
   return (
-    <div className="w-full h-full overflow-hidden shadow  flex flex-col  justify-between">
+    <div className="w-full h-full overflow-hidden shadow rounded-2xl  flex flex-col  justify-between">
       <div className="w-full flex flex-col   gap-y-2">
         <img
           src={image}
@@ -18,13 +18,13 @@ const Card: FC<CardProps> = ({ image, price, subTitle, title, date }) => {
         />
         <span className="text-[#757575]">{date}</span>
       </div>
-      <div className="h-[340px] 2xl:h-[300px] flex flex-col  px-1 justify-between gap-y-1   w-full">
-        <div className="w-full h-fit my-1">
+      <div className="h-[340px] 2xl:h-[300px] flex flex-col   justify-between gap-y-1   w-full">
+        <div className="w-full h-fit my-1 px-1">
           <span className="text-md ">{subTitle}</span>
           <p className="text-xl font-bold playfair-display">{title}</p>
         </div>
 
-        <div className="w-full h-fit flex flex-col gap-y-1 my-1  mt-auto">
+        <div className="w-full h-fit flex flex-col gap-y-1 my-1  mt-auto px-1">
           <span className="text-[#757575]">Sidottu</span>
           <span className="text-[#757575]">Käytetty - erinomainen (K4)</span>
           <span className="text-3xl font-extrabold playfair-display text-black">
