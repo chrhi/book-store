@@ -137,7 +137,7 @@ export function FilterMobile() {
           </svg>
         </button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="overflow-y-auto">
         <div className="  w-full min-h-[500px] h-fit flex-shrink-0">
           <div className="w-full h-[45px] rounded-2xl bg-[#F0F0F0] grid grid-cols-3 overflow-hidden">
             <button className="w-full h-full bg-[#FFC767]  border font-bold ">
