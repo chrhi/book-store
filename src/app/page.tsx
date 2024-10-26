@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
-      <div className="w-full h-[190px] bg-[#67BDFF] flex items-center">
+      <div className="w-full h-[190px] bg-[#FFC767] flex items-center">
         <MaxWidthWrapper className="h-full flex items-center justify-between">
           <div className="h-[117px] w-[367px] bg-white"></div>
 
@@ -45,7 +45,7 @@ export default function Home() {
               Otsikko tänne
             </h1>
             <p className="text-white text-2xl">Tässä tila lyhyelle tekstille</p>
-            <button className="bg-[#67BDFF] hover:bg-[#4ba8f0] w-[170px] h-[55px] py-2 px-4 rounded-2xl font-extrabold text-[16px]  ">
+            <button className="bg-[#FFC767] hover:bg-[#da9c33] w-[170px] h-[55px] py-2 px-4 rounded-2xl font-extrabold text-[16px]  ">
               Lue lisää »
             </button>
           </div>
@@ -99,7 +99,7 @@ export default function Home() {
             </div>
 
             <div className="w-[600px]  h-[100px]  flex items-center justify-end pr-20 ">
-              <button className="bg-[#67BDFF] cursor-pointer hover:bg-[#4ba8f0] w-[154px] p-4 px-6  ">
+              <button className="bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] w-[154px] p-4 px-6  ">
                 Hae
               </button>
             </div>
@@ -181,7 +181,7 @@ export default function Home() {
         </div>
       </MaxWidthWrapper>
       <div className="w-full h-fit my-8">
-        <div className="w-full h-[11px] bg-[#67BDFF]"></div>
+        <div className="w-full h-[11px] bg-[#FFC767]"></div>
         <div className="w-full bg-[#F5F5F5] pt-4">
           <MaxWidthWrapper>
             <div className="bg-[#F5F5F5] text-[#757575] w-full h-[478px] grid grid-cols-2">

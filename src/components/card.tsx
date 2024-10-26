@@ -32,7 +32,7 @@ const Card: FC<CardProps> = ({ image, price, subTitle, title, date }) => {
           </span>
         </div>
 
-        <button className="w-full p-4 bg-[#67BDFF] cursor-pointer hover:bg-[#4ba8f0] rounded-b-2xl font-bold">
+        <button className="w-full p-4 bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] rounded-b-2xl font-bold">
           Lisää ostoskoriin »
         </button>
       </div>
