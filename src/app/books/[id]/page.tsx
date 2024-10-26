@@ -1,6 +1,6 @@
 import BookShowcase from "@/components/book-showcase";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
-import ProductReel from "@/components/product-reel";
+import ProductReel from "@/components/books-reel";
 import type { FC } from "react";
 
 const Page: FC = ({}) => {
@@ -11,7 +11,10 @@ const Page: FC = ({}) => {
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="h-fit my-8 ">
-        <ProductReel title="Tuote-ehdotukset" />
+        <ProductReel
+          title="Tuote-ehdotukset"
+          desc="Ehdotukset perustuvat esitetyn tuotteen tekijään, tuoteryhmään tai aiheisiin."
+        />
       </MaxWidthWrapper>
     </div>
   );

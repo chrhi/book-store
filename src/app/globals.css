@@ -6,13 +6,6 @@
 
 @import url("https://fonts.cdnfonts.com/css/gibson-walsh");
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
 .gibson {
   font-family: "Gibson walsh", sans-serif;
 }

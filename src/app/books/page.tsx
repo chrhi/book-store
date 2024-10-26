@@ -1,5 +1,5 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper";
-import ProductReel from "@/components/product-reel";
+import ProductReel from "@/components/books-reel";
 import SearchBooks from "@/components/search-books";
 import type { FC } from "react";
 
