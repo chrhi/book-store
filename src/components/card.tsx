@@ -5,22 +5,26 @@ interface CardProps {
   subTitle: string;
   title: string;
   price: string;
+  date: string;
 }
 
-const Card: FC<CardProps> = ({ image, price, subTitle, title }) => {
+const Card: FC<CardProps> = ({ image, price, subTitle, title, date }) => {
   return (
-    <div className="w-full h-[600px]   flex flex-col  justify-between">
+    <div className="w-full h-full overflow-hidden   flex flex-col  justify-between">
       <div className="w-full flex flex-col   gap-y-2">
-        <img src={image} className="rounded-t-2xl h-[260px] w-full" />
-        <span className="text-[#757575]">2006.tammi</span>
+        <img
+          src={image}
+          className="rounded-t-2xl h-[260px] 2xl:h-[300px] w-full"
+        />
+        <span className="text-[#757575]">{date}</span>
       </div>
-      <div className="h-[340px] flex flex-col   justify-between gap-y-2   w-full">
-        <div className="w-full h-fit my-2">
-          <span className="text-lg ">{subTitle}</span>
+      <div className="h-[340px] 2xl:h-[300px] flex flex-col   justify-between gap-y-1   w-full">
+        <div className="w-full h-fit my-1">
+          <span className="text-md ">{subTitle}</span>
           <p className="text-xl font-bold playfair-display">{title}</p>
         </div>
 
-        <div className="w-full h-fit flex flex-col gap-y-2 my-2  mt-auto">
+        <div className="w-full h-fit flex flex-col gap-y-1 my-1  mt-auto">
           <span className="text-[#757575]">Sidottu</span>
           <span className="text-[#757575]">Käytetty - erinomainen (K4)</span>
           <span className="text-3xl font-bold playfair-display text-black">

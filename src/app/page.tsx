@@ -24,7 +24,7 @@ export default function Home() {
             "TOIMITUSEHDOT",
           ].map((item) => {
             return (
-              <Link key={item} href={"/"} className="font-bold ">
+              <Link key={item} href={"/"} className="font-extrabold ">
                 {item}
               </Link>
             );
@@ -33,7 +33,7 @@ export default function Home() {
       </div>
       <MaxWidthWrapper>
         <div
-          className="w-full h-[389px] flex rounded-2xl items-center justify-end gap-y-4 relative px-4"
+          className="w-full h-[389px] flex rounded-2xl items-center justify-end gap-y-4 relative px-12"
           style={{
             backgroundImage: "url('/books-y.png')",
             backgroundSize: "cover",
@@ -45,7 +45,7 @@ export default function Home() {
               Otsikko tänne
             </h1>
             <p className="text-white text-2xl">Tässä tila lyhyelle tekstille</p>
-            <button className="bg-[#67BDFF] hover:bg-[#4ba8f0] w-[154px] h-[50px] py-2 px-4 rounded-2xl font-bold text-[16px]  ">
+            <button className="bg-[#67BDFF] hover:bg-[#4ba8f0] w-[170px] h-[55px] py-2 px-4 rounded-2xl font-extrabold text-[16px]  ">
               Lue lisää »
             </button>
           </div>
@@ -53,8 +53,8 @@ export default function Home() {
       </MaxWidthWrapper>
       <MaxWidthWrapper className="h-fit ">
         <div className="w-full my-4 h-[50px] flex items-center justify-between gap-x-4">
-          <h2 className="text-black text-[32px] playfair-display">UUSIMMAT</h2>
-          <div className="h-[1px] w-full bg-black" />
+          <h2 className="text-black text-[40px] playfair-display">UUSIMMAT</h2>
+          <div className="h-[0.5px] w-full bg-black" />
         </div>
         <div className="w-full h-[30px] flex items-center justify-end ">
           <span className="text-2xl ">Näytä kaikki</span>
@@ -68,6 +68,7 @@ export default function Home() {
                 price={item.price}
                 subTitle={item.subtitle}
                 title={item.title}
+                date={item.date}
               />
             );
           })}
