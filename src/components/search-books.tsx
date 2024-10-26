@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { FC } from "react";
 
 const SearchBooks: FC = ({}) => {
@@ -27,9 +28,11 @@ const SearchBooks: FC = ({}) => {
         </div>
 
         <div className=" w-full md:w-[20%] h-[70px] md:h-[220px] md:pt-7  flex flex-col  justify-between items-start md:items-center ">
-          <button className="bg-[#FFC767] px-10 w-[80%] h-[50px] mt-1 font-bold">
-            Hae
-          </button>
+          <Link href={"/search"}>
+            <button className="bg-[#FFC767] px-10 w-[80%] h-[50px] mt-1 font-bold">
+              Hae
+            </button>
+          </Link>
 
           <span className="">Tyhjennä haku</span>
         </div>

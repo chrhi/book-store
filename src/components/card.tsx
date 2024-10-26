@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { FC } from "react";
 
 interface CardProps {
@@ -31,10 +32,11 @@ const Card: FC<CardProps> = ({ image, price, subTitle, title, date }) => {
             {price}
           </span>
         </div>
-
-        <button className="w-full p-4 bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] rounded-b-2xl font-bold">
-          Lisää ostoskoriin »
-        </button>
+        <Link href="/books/bookId">
+          <button className="w-full p-4 bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] rounded-b-2xl font-bold">
+            Lisää ostoskoriin »
+          </button>
+        </Link>
       </div>
     </div>
   );
