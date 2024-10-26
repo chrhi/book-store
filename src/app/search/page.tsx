@@ -24,9 +24,11 @@ const SearchPage: FC = () => {
   );
 
   const SearchResults = () => (
-    <div className="w-full h-[100px] flex justify-between space-y-2 px-8">
+    <div className="w-full h-[100px] flex justify-between space-y-2 px-4 md:px-8">
       <div className="h-full w-fit">
-        <h2 className="text-5xl font-bold playfair-display">Hakutulokset</h2>
+        <h2 className=" text-3xl md:text-5xl font-bold playfair-display">
+          Hakutulokset
+        </h2>
         <p>
           Haulla löytyi {TOTAL_RESULTS} tuotetta (sivu {CURRENT_PAGE} /{" "}
           {TOTAL_PAGES})
@@ -37,7 +39,7 @@ const SearchPage: FC = () => {
   );
 
   const FilterOptions = () => (
-    <div className="flex items-center justify-between px-8">
+    <div className="flex  flex-col md:flex-row items-start justify-start gap-y-2 md:items-center md:justify-between px-4 md:px-8">
       <Select>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Tekijän mukaan" />
@@ -58,7 +60,7 @@ const SearchPage: FC = () => {
   );
 
   const SearchResultsList = () => (
-    <div className="w-full h-fit flex flex-col gap-y-4 px-8">
+    <div className="w-full h-fit flex flex-col gap-y-4 px-4 md:px-8">
       {mockSearchResults.map((item) => (
         <SearchBookCard key={item} />
       ))}

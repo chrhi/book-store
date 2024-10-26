@@ -120,7 +120,7 @@ export function FilterMobile() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="xl:hidden   bg-primary px-4 text-white ">
+        <button className="xl:hidden  w-[50px] h-[50px] flex items-center justify-center bg-primary px-4 text-white ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
