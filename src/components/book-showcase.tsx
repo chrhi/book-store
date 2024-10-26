@@ -10,13 +10,17 @@ const BookShowcase: FC = ({}) => {
         <span className="underline ">J.R.R Tolkien</span>
       </div>
 
-      <div className="w-full h-fit min-h-[500px] grid grid-cols-4 ">
+      <div className="w-full h-fit min-h-[500px] grid grid-cols-1 md:grid-cols-4 ">
         <div className="w-full h-full ">
-          <img className="w-[300px]" src={"/dragon.png"} alt="book" />
+          <img
+            className=" w-[150px] xl:w-[250px] 2xl:w-[300px] mx-auto md:mx-0"
+            src={"/dragon.png"}
+            alt="book"
+          />
         </div>
 
-        <div className="w-full h-fit min-h-[200px]  flex flex-col   col-span-3">
-          <div className="w-full h-full grid grid-cols-3 my-8 gap-4 ">
+        <div className="w-full h-fit min-h-[200px]  flex flex-col   md:col-span-3">
+          <div className="w-full h-full grid grid-cols-1 md:grid-cols-3 my-8 gap-4 ">
             <div className="w-full h-full col-span-2  ">
               <h2 className="text-3xl font-bold ">
                 J. R.R Tolkien : Hobitti, eli Sinne ja takaisin
@@ -38,7 +42,7 @@ const BookShowcase: FC = ({}) => {
             </div>
           </div>
 
-          <div className="w-full my-4 h-[200px] border-t pt-6 grid grid-cols-3  ">
+          <div className="w-full my-4 min-h-[200px] h-fit border-t pt-6 grid grid-cols-1 md:grid-cols-3  ">
             <div className="w-full h-full flex flex-col items-start gap-y-2">
               <div className="w-full flex items-center justify-start gap-x-4">
                 <span className="font-bold ">Kunto:</span> <span>Uusi</span>
