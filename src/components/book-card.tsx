@@ -11,7 +11,7 @@ interface CardProps {
 
 const Card: FC<CardProps> = ({ image, price, subTitle, title, date }) => {
   return (
-    <div className="w-full h-full overflow-hidden shadow rounded-2xl  flex flex-col  justify-between">
+    <div className="w-full h-full overflow-hidden shadow rounded-2xl hover:shadow-lg cursor-pointer  flex flex-col  justify-between">
       <div className="w-full flex flex-col   gap-y-2">
         <img
           src={image}
