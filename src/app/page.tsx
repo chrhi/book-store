@@ -4,9 +4,9 @@ import ProductReel from "@/components/books-reel";
 export default function Home() {
   return (
     <>
-      <MaxWidthWrapper className="mt-[240px] ">
+      <MaxWidthWrapper className="mt-[70px] pt-16 ">
         <div
-          className="w-full h-[389px] flex rounded-2xl items-center justify-start md:justify-end gap-y-4 relative px-4 md:px-12"
+          className="w-full h-[389px]  flex rounded-2xl items-center justify-start md:justify-end gap-y-4 relative px-4 md:px-12"
           style={{
             backgroundImage: "url('/books-y.png')",
             backgroundSize: "cover",
