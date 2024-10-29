@@ -1,45 +1,115 @@
-import Link from "next/link";
-import type { FC } from "react";
+"use client";
 
-interface CardProps {
+import Link from "next/link";
+import { FC, useState } from "react";
+import { useCartStore } from "@/store/useCartStore";
+import { ShoppingCart, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+export interface BookCardProps {
+  id: string;
   image: string;
   subTitle: string;
   title: string;
   price: string;
   date: string;
+  condition?: string;
+  binding?: string;
 }
 
-const Card: FC<CardProps> = ({ image, price, subTitle, title, date }) => {
+const BookCard: FC<BookCardProps> = ({
+  id,
+  image,
+  price,
+  subTitle,
+  title,
+  date,
+  condition = "Käytetty - erinomainen (K4)",
+  binding = "Sidottu",
+}) => {
+  const [isAdded, setIsAdded] = useState(false);
+  const { addItem } = useCartStore();
+
+  const handleAddToCart = () => {
+    addItem({
+      id,
+      image,
+      title,
+      price,
+      subTitle,
+      quantity: 1,
+      condition,
+      binding,
+    });
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
+
   return (
-    <div className="w-full h-full overflow-hidden shadow rounded-2xl hover:shadow-lg cursor-pointer  flex flex-col  justify-between">
-      <div className="w-full flex flex-col   gap-y-2">
-        <img
-          src={image}
-          className="rounded-t-2xl h-[260px] 2xl:h-[300px] w-full"
-        />
-        <span className="text-[#757575]">{date}</span>
+    <div className="w-full h-full overflow-hidden shadow rounded-2xl hover:shadow-lg transition-shadow duration-300 flex flex-col justify-between bg-white">
+      <div className="w-full flex flex-col gap-y-2">
+        <div className="relative group">
+          <img
+            src={image}
+            alt={title}
+            className="rounded-t-2xl h-[260px] 2xl:h-[300px] w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <Link
+            href={`/books/${id}`}
+            className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"
+          />
+        </div>
+        <span className="text-[#757575] px-4">{date}</span>
       </div>
-      <div className="h-[340px] 2xl:h-[300px] flex flex-col   justify-between gap-y-1   w-full">
-        <div className="w-full h-fit my-1 px-1">
-          <span className="text-md ">{subTitle}</span>
-          <p className="text-xl font-bold playfair-display">{title}</p>
+
+      <div className="h-[340px] 2xl:h-[300px] flex flex-col justify-between w-full ">
+        <div className="space-y-2 px-4">
+          <span className="text-md text-gray-600">{subTitle}</span>
+          <Link href={`/books/${id}`}>
+            <h3 className="text-xl font-bold playfair-display hover:text-gray-700 transition-colors">
+              {title}
+            </h3>
+          </Link>
         </div>
 
-        <div className="w-full h-fit flex flex-col gap-y-1 my-1  mt-auto px-1">
-          <span className="text-[#757575]">Sidottu</span>
-          <span className="text-[#757575]">Käytetty - erinomainen (K4)</span>
-          <span className="text-3xl font-extrabold playfair-display text-black">
-            {price}
-          </span>
+        <div className="space-y-3 ">
+          <div className="space-y-1 px-4">
+            <span className="text-[#757575] block">{binding}</span>
+            <span className="text-[#757575] block">{condition}</span>
+            <span className="text-3xl font-extrabold playfair-display text-black">
+              {price} €
+            </span>
+          </div>
+
+          <Button
+            onClick={handleAddToCart}
+            className={cn(
+              "w-full h-14  font-bold transition-all duration-300",
+              isAdded
+                ? "bg-green-500 hover:bg-green-600"
+                : "bg-[#FFC767] hover:bg-[#da9c33]"
+            )}
+            disabled={isAdded}
+          >
+            <span className="flex items-center gap-x-2">
+              {isAdded ? (
+                <>
+                  <Check className="w-5 h-5" />
+                  Lisätty koriin
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-5 h-5" />
+                  Lisää ostoskoriin
+                </>
+              )}
+            </span>
+          </Button>
         </div>
-        <Link href="/books/bookId">
-          <button className="w-full p-4 bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] rounded-b-2xl font-bold">
-            Lisää ostoskoriin »
-          </button>
-        </Link>
       </div>
     </div>
   );
 };
 
-export default Card;
+export default BookCard;

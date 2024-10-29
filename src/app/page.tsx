@@ -1,5 +1,6 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -20,9 +21,9 @@ export default function Home() {
             <p className="text-white text-xl md:text-2xl">
               Tässä tila lyhyelle tekstille
             </p>
-            <button className="bg-[#FFC767] hover:bg-[#da9c33] w-[170px] h-[55px] py-2 px-4 rounded-2xl font-extrabold text-[16px]">
+            <Button className="bg-[#FFC767] hover:bg-[#da9c33] w-[170px] h-[55px] py-2 px-4 rounded-2xl font-extrabold text-[16px]">
               Lue lisää »
-            </button>
+            </Button>
           </div>
         </div>
       </MaxWidthWrapper>
@@ -56,9 +57,9 @@ export default function Home() {
             </div>
 
             <div className="w-full md:w-[600px] h-[100px] flex items-center justify-center md:justify-end md:pr-20">
-              <button className="bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] w-[154px] p-4 px-6">
+              <Button className="bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] w-[154px] p-4 px-6">
                 Hae
-              </button>
+              </Button>
             </div>
           </div>
         </div>

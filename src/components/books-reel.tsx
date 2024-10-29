@@ -31,6 +31,7 @@ const ProductReel: FC<ProductReelProps> = ({ title, desc }) => {
         {DATA.map((item) => {
           return (
             <Card
+              id={item.price}
               key={item.image}
               image={item.image}
               price={item.price}
