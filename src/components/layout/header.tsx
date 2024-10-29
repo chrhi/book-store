@@ -19,7 +19,9 @@ const Header: FC = ({}) => {
         <div className="w-full min-h-[70px] h-fit    bg-white shadow ">
           <MaxWidthWrapper className="h-[70px]  flex w-full items-center justify-between gap-2">
             <div className="h-full flex-grow flex flex-wrap items-center justify-start gap-4">
-              <span className="font-bold text-2xl text-primary">Ostoskori</span>
+              <Link href={"/"} className="font-bold text-2xl text-primary">
+                Ostoskori
+              </Link>
               {[
                 "ETUSIVU",
                 "AIHEALUEET",

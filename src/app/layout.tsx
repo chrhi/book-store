@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Otsikko tänne",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <Toaster />
       </body>
     </html>
   );

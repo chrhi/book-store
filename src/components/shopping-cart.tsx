@@ -4,17 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Ghost, ShoppingCart, Trash, Plus, Minus } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function ShoppingCard() {
   const { items, totalPrice, removeItem, updateItemQuantity } = useCartStore();
+  const router = useRouter();
+
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={(open) => setOpen(open)}>
       <SheetTrigger asChild>
         <Button variant="ghost" className="flex-shrink-0 relative">
           <ShoppingCart />
           {items.length > 0 && (
-            <span className="absolute -top-2 -right-2 bg-black text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+            <span className="absolute -top-2 -right-2 bg-red-500 font-bold text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
               {items.length}
             </span>
           )}
@@ -104,6 +109,10 @@ export function ShoppingCard() {
               size="lg"
               className="text-black w-full"
               disabled={items.length === 0}
+              onClick={() => {
+                setOpen(false);
+                router.push("/checkout");
+              }}
             >
               jatka kassalle
             </Button>
