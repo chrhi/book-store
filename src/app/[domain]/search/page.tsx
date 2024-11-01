@@ -18,7 +18,7 @@ const SearchPage: FC = () => {
   const mockSearchResults = [1, 3, 4, 5];
 
   const PageHeader = () => (
-    <MaxWidthWrapper className="my-4mt-[70px] pt-16 ">
+    <MaxWidthWrapper className="my-4 mt-[160px] pt-16 ">
       <h2 className="text-4xl font-bold playfair-display">Haku</h2>
     </MaxWidthWrapper>
   );

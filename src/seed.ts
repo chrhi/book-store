@@ -53,6 +53,7 @@ const books = [
   },
   {
     title: "1984",
+    authUrl : "here the url will go",
     author: "George Orwell",
     price: 15.99,
     year: 1949,

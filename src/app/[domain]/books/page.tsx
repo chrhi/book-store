@@ -5,7 +5,7 @@ import type { FC } from "react";
 
 const Page: FC = ({}) => {
   return (
-    <div className="w-full min-h-screen h-fit mt-[70px] pt-16 ">
+    <div className="w-full min-h-screen h-fit mt-[160px] pt-16 ">
       <MaxWidthWrapper>
         <SearchBooks />
       </MaxWidthWrapper>

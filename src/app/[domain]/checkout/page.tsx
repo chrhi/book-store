@@ -48,7 +48,7 @@ export default function CheckoutPage() {
   //   };
 
   return (
-    <div className="min-h-screen mt-[70px] bg-gray-100 py-10">
+    <div className="min-h-screen mt-[160px] bg-gray-100 py-10">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl font-bold playfair-display mb-8">Checkout</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">

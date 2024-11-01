@@ -86,7 +86,6 @@ const bookSchema = new Schema(
   }
 );
 
-// Create indexes for common queries
 bookSchema.index({ title: "text", author: "text" });
 bookSchema.index({ isbn: 1 });
 bookSchema.index({ category: 1 });

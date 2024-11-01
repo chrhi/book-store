@@ -1,6 +1,7 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
 import { Button } from "@/components/ui/button";
+import { GetAllBooks } from "@/lib/actions/books.actions";
 // import { seedDatabase } from "@/seed";
 // import { GetAllBooks } from "@/lib/actions/books.actions";
 // import Card from "@/components/book-card";
@@ -10,9 +11,11 @@ export default async function Home() {
 
   // await seedDatabase();
 
+  const BOOKS = await GetAllBooks();
+
   return (
     <>
-      <MaxWidthWrapper className="mt-[70px] pt-16 ">
+      <MaxWidthWrapper className="mt-[160px] pt-16 ">
         <div
           className="w-full h-[389px]  flex rounded-2xl items-center justify-start md:justify-end gap-y-4 relative px-4 md:px-12"
           style={{
@@ -36,20 +39,7 @@ export default async function Home() {
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="h-fit">
-        <ProductReel title="UUSIMMAT" />
-        {/* {books.map((item) => {
-          return (
-            <Card
-              id={item._id.$oid}
-              key={item._id.$oid}
-              image={item.images[0].fileDomain}
-              price={item.price.toString()}
-              subTitle={item.additionalNameInfo}
-              title={item.name}
-              date={item.date.$date}
-            />
-          );
-        })} */}
+        <ProductReel books={BOOKS.books} title="UUSIMMAT" />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="h-fit">

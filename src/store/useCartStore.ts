@@ -1,4 +1,3 @@
-// store/useCartStore.ts
 import { create } from "zustand";
 import { CardItem } from "@/types";
 
