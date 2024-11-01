@@ -1,8 +1,15 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
 import { Button } from "@/components/ui/button";
+// import { seedDatabase } from "@/seed";
+// import { GetAllBooks } from "@/lib/actions/books.actions";
+// import Card from "@/components/book-card";
 
-export default function Home() {
+export default async function Home() {
+  // const books = await GetAllBooks();
+
+  // await seedDatabase();
+
   return (
     <>
       <MaxWidthWrapper className="mt-[70px] pt-16 ">
@@ -30,6 +37,19 @@ export default function Home() {
 
       <MaxWidthWrapper className="h-fit">
         <ProductReel title="UUSIMMAT" />
+        {/* {books.map((item) => {
+          return (
+            <Card
+              id={item._id.$oid}
+              key={item._id.$oid}
+              image={item.images[0].fileDomain}
+              price={item.price.toString()}
+              subTitle={item.additionalNameInfo}
+              title={item.name}
+              date={item.date.$date}
+            />
+          );
+        })} */}
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="h-fit">
