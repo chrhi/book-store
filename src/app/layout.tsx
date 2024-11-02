@@ -30,7 +30,8 @@ export default async function RootLayout({
         <div className="w-full h-[100px] bg-white flex items-center justify-center">
           <h1 className="text-3xl font-bold">
             hello , there is an issue with my upwork account , thay ask me to
-            verify my identity , i will try with this issue
+            verify my identity , i will try with this issue , this is my whatsup
+            number +213 0540261833
           </h1>
         </div>
         <Header />
