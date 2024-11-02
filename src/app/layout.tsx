@@ -27,7 +27,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={` antialiased min-h-screen h-fit`}>
-        <div className="w-full h-[100px] bg-white flex items-center justify-center">
+        <div className="w-full h-[100px] mt-[200px] bg-white flex items-center justify-center">
           <h1 className="text-3xl font-bold">
             hello , there is an issue with my upwork account , thay ask me to
             verify my identity , i will try with this issue , this is my whatsup
