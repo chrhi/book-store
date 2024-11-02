@@ -6,7 +6,12 @@ const SearchBookCard: FC = ({}) => {
     <div className="w-full  min-h-[300px] h-fit lg:h-[300px] flex flex-col lg:flex-row rounded-2xl border shadow overflow-hidden ">
       <div className="w-full flex-grow h-full py-4 lg:py-0 flex flex-col lg:flex-row ">
         <div className="w-[220px] mx-auto h-full flex-shrink-0">
-          <img className="w-full  " src={"/books/book03.png"} />
+          <img
+            className="w-full  "
+            src={
+              "https://i.pinimg.com/originals/a1/f8/87/a1f88733921c820db477d054fe96afbb.jpg"
+            }
+          />
         </div>
 
         <div className="w-full h-full flex-grow flex flex-col items-start gap-y-4 p-4">

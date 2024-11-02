@@ -70,9 +70,11 @@ export default async function Home() {
             </div>
 
             <div className="w-full md:w-[600px] h-[100px] flex items-center justify-center md:justify-end md:pr-20">
-              <Button className="bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] w-[154px] p-4 px-6">
-                Hae
-              </Button>
+              <Link href={"/search"}>
+                <Button className="bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] w-[154px] p-4 px-6">
+                  Hae
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
