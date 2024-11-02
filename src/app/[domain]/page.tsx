@@ -2,6 +2,7 @@ import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
 import { Button } from "@/components/ui/button";
 import { GetAllBooks } from "@/lib/actions/books.actions";
+import Link from "next/link";
 // import { seedDatabase } from "@/seed";
 // import { GetAllBooks } from "@/lib/actions/books.actions";
 // import Card from "@/components/book-card";
@@ -31,9 +32,11 @@ export default async function Home() {
             <p className="text-white text-xl md:text-2xl">
               Tässä tila lyhyelle tekstille
             </p>
-            <Button className="bg-[#FFC767] hover:bg-[#da9c33] w-[170px] h-[55px] py-2 px-4 rounded-2xl font-extrabold text-[16px]">
-              Lue lisää »
-            </Button>
+            <Link href={"/search"}>
+              <Button className="bg-[#FFC767] hover:bg-[#da9c33] w-[170px] h-[55px] py-2 px-4 rounded-2xl font-extrabold text-[16px]">
+                Lue lisää »
+              </Button>
+            </Link>
           </div>
         </div>
       </MaxWidthWrapper>

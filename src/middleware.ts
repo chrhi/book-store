@@ -28,12 +28,3 @@ export default async function middleware(req: NextRequest) {
 
   return NextResponse.rewrite(new URL(`/${hostname}${path}`, req.url));
 }
-
-// if (
-//     hostname.includes("---") &&
-//     hostname.endsWith(`.${process.env.NEXT_PUBLIC_VERCEL_DEPLOYMENT_SUFFIX}`)
-//   ) {
-//     hostname = `${hostname.split("---")[0]}.${
-//       process.env.NEXT_PUBLIC_ROOT_DOMAIN
-//     }`;
-//   }
