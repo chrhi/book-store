@@ -16,12 +16,18 @@ const SearchBooks: FC = ({}) => {
           <div className="flex flex-col gap-y-2  ">
             <span className="font-bold">Kieli</span>
 
-            <input className="w-full h-[50px] bg-white rounded-lg border border-[#757575] px-4" />
+            <input
+              placeholder="Valitse kieli"
+              className="w-full h-[50px] bg-white rounded-lg border border-[#757575] px-4"
+            />
           </div>
           <div className="flex flex-col gap-y-2  ">
             <span className="font-bold">Tuoteryhmä</span>
 
-            <input className="w-full h-[50px] bg-white rounded-lg border border-[#757575] px-4" />
+            <input
+              placeholder="Valitse kieli"
+              className="w-full h-[50px] bg-white rounded-lg border border-[#757575] px-4"
+            />
           </div>
 
           <span>Tarkempi haku »</span>
