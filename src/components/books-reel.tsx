@@ -34,9 +34,7 @@ const ProductReel: FC<ProductReelProps> = ({ title, desc, books }) => {
             <Card
               id={item.price}
               key={item.image}
-              image={
-                "https://i.pinimg.com/originals/a1/f8/87/a1f88733921c820db477d054fe96afbb.jpg"
-              }
+              image={item.image}
               price={item.price}
               subTitle={item.subtitle}
               title={item.title}
