@@ -1,6 +1,7 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
 import SearchBooks from "@/components/search-books";
+import { DATA } from "@/data";
 
 const Page = async ({}) => {
   return (
@@ -10,7 +11,7 @@ const Page = async ({}) => {
       </MaxWidthWrapper>
       <MaxWidthWrapper className="h-fit my-8 ">
         {/* these books they were comming from the database */}
-        <ProductReel books={[]} title="Katsotuimmat kirjat" />
+        <ProductReel books={DATA} title="Katsotuimmat kirjat" />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="my-8">

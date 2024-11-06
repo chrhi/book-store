@@ -1,6 +1,7 @@
 import BookShowcase from "@/components/book-showcase";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
+import { DATA } from "@/data";
 
 const Page = async ({}) => {
   return (
@@ -12,7 +13,7 @@ const Page = async ({}) => {
       <MaxWidthWrapper className="h-fit my-8 ">
         <ProductReel
           // these books they were comming from the database but i removed the action call
-          books={[]}
+          books={DATA}
           title="Tuote-ehdotukset"
           desc="Ehdotukset perustuvat esitetyn tuotteen tekijään, tuoteryhmään tai aiheisiin."
         />

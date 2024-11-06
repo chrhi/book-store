@@ -2,6 +2,7 @@ import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { DATA } from "@/data";
 
 export default async function Home() {
   return (
@@ -33,7 +34,7 @@ export default async function Home() {
 
       <MaxWidthWrapper className="h-fit">
         {/* these books they were comming from the database */}
-        <ProductReel books={[]} title="UUSIMMAT" />
+        <ProductReel books={DATA} title="UUSIMMAT" />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="h-fit">
