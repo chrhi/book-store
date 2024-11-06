@@ -159,15 +159,15 @@ export function FilterMobile() {
               />
               <input
                 className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-                placeholder="Tekijä"
+                placeholder="Nimike"
               />
               <input
                 className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-                placeholder="Tekijä"
+                placeholder="ISBN"
               />
               <input
                 className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-                placeholder="Tekijä"
+                placeholder="Tuoteryhmä"
               />
             </div>
             <div className="w-full flex flex-col gap-y-4 my-4">
@@ -175,19 +175,19 @@ export function FilterMobile() {
 
               <input
                 className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-                placeholder="Tekijä"
+                placeholder="Kustantaja"
               />
               <input
                 className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-                placeholder="Tekijä"
+                placeholder="Painovuosi"
               />
               <input
                 className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-                placeholder="Tekijä"
+                placeholder="Aihesana"
               />
               <input
                 className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-                placeholder="Tekijä"
+                placeholder="Kieli"
               />
             </div>
 
