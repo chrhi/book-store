@@ -20,22 +20,21 @@ const FilterSidebar: FC = ({}) => {
       <div className="w-full min-h-[200px] h-fit my-8 rounded-2xl bg-[#F5F5F5] p-4 ">
         <div className="w-full flex flex-col gap-y-4">
           <h2 className="font-bold text-xl">Hakuehdot</h2>
-
           <input
             className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
             placeholder="Tekijä"
           />
           <input
             className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-            placeholder="Tekijä"
+            placeholder="Nimike"
           />
           <input
             className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-            placeholder="Tekijä"
+            placeholder="ISBN"
           />
           <input
             className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-            placeholder="Tekijä"
+            placeholder="Tuoteryhmä"
           />
         </div>
         <div className="w-full flex flex-col gap-y-4 my-4">
@@ -43,19 +42,19 @@ const FilterSidebar: FC = ({}) => {
 
           <input
             className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-            placeholder="Tekijä"
+            placeholder="Kustantaja"
           />
           <input
             className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-            placeholder="Tekijä"
+            placeholder="Painovuosi"
           />
           <input
             className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-            placeholder="Tekijä"
+            placeholder="Aihesana"
           />
           <input
             className="w-full h-[50px] rounded-lg border border-[#757575] px-4"
-            placeholder="Tekijä"
+            placeholder="Kieli"
           />
         </div>
 

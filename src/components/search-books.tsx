@@ -29,7 +29,7 @@ const SearchBooks: FC = ({}) => {
 
         <div className=" w-full md:w-[20%] h-[70px] md:h-[220px] md:pt-7  flex flex-col  justify-between items-start md:items-center ">
           <Link href={"/search"}>
-            <button className="bg-[#FFC767] px-10 w-[80%] h-[50px] mt-1 font-bold">
+            <button className="bg-[#FFC767] px-10 w-[80%] min-w-[200px] h-[50px] mt-1 font-bold">
               Hae
             </button>
           </Link>
