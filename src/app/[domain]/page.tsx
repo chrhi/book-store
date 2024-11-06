@@ -1,19 +1,9 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
 import { Button } from "@/components/ui/button";
-import { GetAllBooks } from "@/lib/actions/books.actions";
 import Link from "next/link";
-// import { seedDatabase } from "@/seed";
-// import { GetAllBooks } from "@/lib/actions/books.actions";
-// import Card from "@/components/book-card";
 
 export default async function Home() {
-  // const books = await GetAllBooks();
-
-  // await seedDatabase();
-
-  const BOOKS = await GetAllBooks();
-
   return (
     <>
       <MaxWidthWrapper className="mt-[160px] pt-16 ">
@@ -42,7 +32,8 @@ export default async function Home() {
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="h-fit">
-        <ProductReel books={BOOKS.books} title="UUSIMMAT" />
+        {/* these books they were comming from the database */}
+        <ProductReel books={[]} title="UUSIMMAT" />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="h-fit">

@@ -1,17 +1,16 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
 import SearchBooks from "@/components/search-books";
-import { GetAllBooks } from "@/lib/actions/books.actions";
 
 const Page = async ({}) => {
-  const BOOKS = await GetAllBooks();
   return (
     <div className="w-full min-h-screen h-fit mt-[160px] pt-16 ">
       <MaxWidthWrapper>
         <SearchBooks />
       </MaxWidthWrapper>
       <MaxWidthWrapper className="h-fit my-8 ">
-        <ProductReel books={BOOKS.books} title="Katsotuimmat kirjat" />
+        {/* these books they were comming from the database */}
+        <ProductReel books={[]} title="Katsotuimmat kirjat" />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="my-8">
