@@ -1,4 +1,6 @@
 import "./globals.css";
+
+// these are subdomain related stuff i am not using theme so i commented them
 // import { headers } from "next/headers";
 // import { getDomainFromHeaders, isValidSubdomain } from "@/lib/domains";
 // import { redirect } from "next/navigation";
@@ -27,13 +29,6 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={` antialiased min-h-screen h-fit`}>
-        <div className="w-full h-[100px] mt-[200px] bg-white flex items-center justify-center">
-          <h1 className="text-3xl font-bold">
-            hello , there is an issue with my upwork account , thay ask me to
-            verify my identity , i will try with this issue , this is my whatsup
-            number +213 0540261833
-          </h1>
-        </div>
         <Header />
         {children}
         <Footer />
