@@ -9,7 +9,7 @@ const SearchBookCard: FC = ({}) => {
           <img
             className="w-full  "
             src={
-              "https://i.pinimg.com/originals/a1/f8/87/a1f88733921c820db477d054fe96afbb.jpg"
+              "https://utfs.io/f/XskS7UxK1RObRMLUXQijFJDK1APEuco2vISUywiC39paTXYe"
             }
           />
         </div>

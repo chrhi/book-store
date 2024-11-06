@@ -41,7 +41,7 @@ const SearchPage: FC = () => {
   const FilterOptions = () => (
     <div className="flex  flex-col md:flex-row items-start justify-start gap-y-2 md:items-center md:justify-between px-4 md:px-8">
       <Select>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[380px]">
           <SelectValue placeholder="Tekijän mukaan" />
         </SelectTrigger>
         <SelectContent />
