@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model StoreOwner {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  logoUrl String  
+  primaryColor String 
+}
+
+model Product {
+  id                 String                  @id @default(auto()) @map("_id") @db.ObjectId
+  myytyPvm           Json                    // Dates of sales
+  hakusanat          Json                    // Search keywords
+  tila               Boolean                 // Status
+  nimi               String                  // Name
+  tekija             String                  // Author
+  paatuoteryhma      String                  // Main product group
+  myyntipaikka       String                  // Sales location
+  tuotekoodi         String                  // Product code
+  kustantaja         String                  // Publisher
+  isbn              String                  // ISBN
+  y_id               Int                     // Company ID
+  ynimi              String                  // Company name
+  ytila              Int                     // Company status
+  pvm                DateTime               // Date
+  hylly              String                  // Shelf
+  sidonta            String                  // Binding
+  kunto              String                  // Condition
+  painovuosi         String                  // Year of publication
+  painos             String                  // Edition
+  muuta              String                  // Other information
+  hinta              Float                  // Price
+  valuuttakoodi      String                  // Currency code
+  maara              Int                     // Quantity
+  kieli              String                  // Language
+  sivum              String                  // Number of pages
+  kuvatieto          String                  // Image information
+  antikvaari_id      Int                     // Antique ID
+  tuoteryhma         Int                     // Product group
+  op                 String                  // Operation
+  catalog_suggestions Json                   // Catalog suggestions
+  hintaHaku          Float                  // Price for search
+  varasto            Warehouse              @relation(fields: [varastoId], references: [id])
+  varastoId          String                  @db.ObjectId
+  kuvat              Image[]
+  old_data           OldData[]
+  asetukset          Settings
+  category           Int                     // Category
+  kategoria          Int                     // Category
+  kustantajaHaku      String                  // Publisher search
+  nimiHaku           String                  // Name search
+  nimikeLisatiedot   String                  // Additional product information
+  piilotettu         Boolean                 // Hidden
+  tarkistettu        DateTime                // Checked
+  tekijaHaku         String                  // Author search
+  tuoteryhmat        Int[]                   // Product groups
+  ver                String                  // Version
+}
+
+model Warehouse {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  products    Product[]
+}
+
+model Image {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  pos               Int
+  process_id        String   @db.ObjectId
+  file_domain       String
+  file_path         String
+  file_sm           String
+  file_md           String
+  file_lg           String
+  filename          String
+  filename_edit     String
+  filename_original String
+  created           DateTime
+  edited            DateTime
+  resized           DateTime
+  deleted           DateTime
+  product           Product   @relation(fields: [productId], references: [id])
+  productId         String    @db.ObjectId
+}
+
+model OldData {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  kuvat             Image[]  @relation("OldDataMainImages")
+  lisaKuvat         Image[]  @relation("OldDataAdditionalImages")
+  date              DateTime
+  product           Product   @relation(fields: [productId], references: [id])
+  productId         String    @db.ObjectId
+  asetukset         Settings
+  piilotettu        String
+  kategoria         String
+  tuoteryhmat       String
+  kustantajaHaku    String
+  nimiHaku          String
+  tekijaHaku        String
+  category          String
+  tarkistettu       String
+  ver               String
+}
+
+model Settings {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  tiedot_teokselta  Boolean
+  product           Product   @relation(fields: [productId], references: [id])
+  productId         String    @db.ObjectId
+}
