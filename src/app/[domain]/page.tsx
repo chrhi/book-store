@@ -6,7 +6,7 @@ import Link from "next/link";
 import { getBooksAction } from "@/lib/actions/product.action";
 
 export default async function Home() {
-  const [books] = await Promise.all([getBooksAction()]);
+  const products = await getBooksAction();
 
   return (
     <>
@@ -37,7 +37,7 @@ export default async function Home() {
 
       <MaxWidthWrapper className="h-fit">
         {/* these books they were comming from the database */}
-        <ProductReel books={books as any[]} title="UUSIMMAT" />
+        <ProductReel books={products as any[]} title="UUSIMMAT" />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="h-fit">

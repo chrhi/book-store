@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import FilterSidebar, { FilterMobile } from "@/components/filter";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import SearchBookCard from "@/components/search-book-card";
@@ -65,15 +65,12 @@ export default function ClientPage({ books }: ClientPageProps) {
     days: 14,
   });
 
-  const handleFilterChange = useCallback(
-    (key: keyof FilterState, value: any) => {
-      setFilters((prev) => ({ ...prev, [key]: value }));
-      setCurrentPage(1); // Reset to first page when filters change
-    },
-    []
-  );
+  const handleFilterChange = (key: keyof FilterState, value: any) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+    // setCurrentPage(1); // Reset to first page when filters change
+  };
 
-  const handleClearFilters = useCallback(() => {
+  const handleClearFilters = () => {
     setFilters({
       type: "all",
       author: "",
@@ -87,58 +84,55 @@ export default function ClientPage({ books }: ClientPageProps) {
       condition: 4,
       days: 14,
     });
-  }, []);
+  };
 
-  const filterBooks = useCallback(
-    (books: Book[]) => {
-      return books.filter((book) => {
-        // Type filter
-        if (filters?.type === "new" && book?.tila) return false;
-        if (filters?.type === "used" && !book?.tila) return false;
+  const filterBooks = (books: Book[]) => {
+    return books.filter((book) => {
+      // Type filter
+      if (filters?.type === "new" && book?.tila) return false;
+      if (filters?.type === "used" && !book?.tila) return false;
 
-        // Text filters (case-insensitive)
-        if (
-          filters.author &&
-          !book?.tekija?.toLowerCase().includes(filters.author.toLowerCase())
-        )
-          return false;
-        if (
-          filters.title &&
-          !book?.nimi?.toLowerCase().includes(filters.title.toLowerCase())
-        )
-          return false;
-        if (filters?.isbn && !book?.isbn?.includes(filters.isbn)) return false;
-        if (
-          filters?.productGroup &&
-          !book?.paatuoteryhma
-            .toLowerCase()
-            .includes(filters?.productGroup?.toLowerCase())
-        )
-          return false;
-        if (
-          filters?.publisher &&
-          !book?.kustantaja
-            ?.toLowerCase()
-            ?.includes(filters?.publisher?.toLowerCase())
-        )
-          return false;
-        if (filters?.printYear && book?.painovuosi !== filters.printYear)
-          return false;
-        if (
-          filters?.language &&
-          !book?.kieli?.toLowerCase().includes(filters?.language.toLowerCase())
-        )
-          return false;
+      // Text filters (case-insensitive)
+      if (
+        filters.author &&
+        !book?.tekija?.toLowerCase().includes(filters.author.toLowerCase())
+      )
+        return false;
+      if (
+        filters.title &&
+        !book?.nimi?.toLowerCase().includes(filters.title.toLowerCase())
+      )
+        return false;
+      if (filters?.isbn && !book?.isbn?.includes(filters.isbn)) return false;
+      if (
+        filters?.productGroup &&
+        !book?.paatuoteryhma
+          .toLowerCase()
+          .includes(filters?.productGroup?.toLowerCase())
+      )
+        return false;
+      if (
+        filters?.publisher &&
+        !book?.kustantaja
+          ?.toLowerCase()
+          ?.includes(filters?.publisher?.toLowerCase())
+      )
+        return false;
+      if (filters?.printYear && book?.painovuosi !== filters.printYear)
+        return false;
+      if (
+        filters?.language &&
+        !book?.kieli?.toLowerCase().includes(filters?.language.toLowerCase())
+      )
+        return false;
 
-        // Condition filter (K1-K5)
-        const bookCondition = parseInt(book?.kunto?.replace("K", ""));
-        if (bookCondition > filters?.condition) return false;
+      // Condition filter (K1-K5)
+      const bookCondition = parseInt(book?.kunto?.replace("K", ""));
+      if (bookCondition > filters?.condition) return false;
 
-        return true;
-      });
-    },
-    [filters]
-  );
+      return true;
+    });
+  };
 
   const filteredBooks = filterBooks(books);
   const TOTAL_RESULTS = filteredBooks.length;
@@ -160,7 +154,6 @@ export default function ClientPage({ books }: ClientPageProps) {
 
       <MaxWidthWrapper className="my-4">
         <div className="w-full min-h-screen flex h-fit items-start justify-start">
-          {/* Sidebar Filter */}
           <FilterSidebar
             filters={filters}
             //@ts-expect-error this is an error
@@ -168,7 +161,6 @@ export default function ClientPage({ books }: ClientPageProps) {
             onClearFilters={handleClearFilters}
           />
 
-          {/* Main Content */}
           <div className="w-full flex-grow min-h-[400px] h-fit">
             <div className="w-full min-h-[300px] h-fit flex flex-col gap-y-4">
               <div className="w-full h-[100px] flex justify-between space-y-2 px-4 md:px-8">

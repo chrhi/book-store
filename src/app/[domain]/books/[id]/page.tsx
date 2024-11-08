@@ -21,6 +21,9 @@ export default async function Page({
     }),
   ]);
 
+  console.log("this is the id ");
+  console.log(id);
+
   console.log(bookData);
 
   return (

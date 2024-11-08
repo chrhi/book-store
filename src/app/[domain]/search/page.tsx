@@ -4,6 +4,9 @@ import ClientPage from "./client-page";
 const SearchPage = async () => {
   const [books] = await Promise.all([getBooksAction()]);
 
+  console.log("this is the data we are getting");
+  console.log(books);
+
   if (!books) {
     return (
       <div className="w-full h-screen">
@@ -11,8 +14,8 @@ const SearchPage = async () => {
       </div>
     );
   }
-  //@ts-expect-error the book error is working
-  return <ClientPage books={books} />;
+
+  return <ClientPage books={[books[0]]} />;
 };
 
 export default SearchPage;
