@@ -1,4 +1,8 @@
-import type { FC } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
+
+import { useCartStore } from "@/store/useCartStore";
+import { useState, type FC } from "react";
 
 interface BookDetails {
   title: string;
@@ -23,6 +27,24 @@ interface Props {
 }
 
 const BookShowcase: FC<Props> = ({ book }) => {
+  const [isAdded, setIsAdded] = useState(false);
+  const { addItem } = useCartStore();
+
+  const handleAddToCart = () => {
+    addItem({
+      id: book.id,
+      image: `${book.kuvat[0]?.file_domain}/${book.kuvat[0]?.file_path}/${book.kuvat[0]?.file_md}`,
+      title: book.nimi,
+      price: book.hinta ? book.hinta.toString() : "",
+      subTitle: "",
+      quantity: 1,
+      condition: book.kunto || "",
+      binding: book.sidonta || "",
+    });
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
+  };
+
   const bookDetails: BookDetails = {
     title: book.nimi || "", // Extract book title
     author: book.tekija || "", // Extract author
@@ -85,7 +107,10 @@ const BookShowcase: FC<Props> = ({ book }) => {
               </h3>
               <p className="text-sm">Lähetetään 1-2 arkipäivässä.</p>
               <p className="text-sm">Toimitus Suomeen 6,90 €</p>
-              <button className="w-full mt-4 py-3 px-4 bg-[#FFC767] font-bold hover:bg-[#e6b35d] transition-colors rounded-sm">
+              <button
+                onClick={handleAddToCart}
+                className="w-full mt-4 py-3 px-4 bg-[#FFC767] font-bold hover:bg-[#e6b35d] transition-colors rounded-sm"
+              >
                 Lisää ostoskoriin »
               </button>
             </div>
