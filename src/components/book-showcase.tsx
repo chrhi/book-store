@@ -17,22 +17,27 @@ interface BookDetails {
   imageUrl: string;
 }
 
-const BookShowcase: FC = () => {
+interface Props {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  book: any;
+}
+
+const BookShowcase: FC<Props> = ({ book }) => {
   const bookDetails: BookDetails = {
-    title: "Hobitti, eli Sinne ja takaisin",
-    author: "J.R.R Tolkien",
-    publisher: "WSOY",
-    year: "2017",
-    price: "28,00",
-    condition: "Uusi",
-    binding: "Sidottu, kansipaperi",
-    isbn: "1234123412341234",
-    pages: "256",
-    category: "Scifi, Fantasia",
-    edition: "3",
-    dimensions: "-",
-    imageUrl: "/dragon.png",
-    description: `Hobitti täyttää 80 vuotta! 2017 on kulunut J. R. R. Tolkienin syntymästä 125 vuotta ja Hobitin ilmestymisestä 80 vuotta. Tuplajuhlan kunniaksi Hobitti ilmestyy uutena laitoksena Tove Janssonin kuvittamana. 21.9.1937 julkaistiin Englannissa ensipainos Tolkienin fantasiaromaanista Hobitti. 23 vuotta myöhemmin Rabén & Sjögrenin kustannustoimittaja Astrid Lindgren pyysi Muumi-kirjoillaan jo mainetta niittänyttä Tove Janssonia kuvittamaan Hobitin, josta oli tekeillä uusi ruotsinnos.Hobitin 80-vuotislaitos sisältää Janssonin satumaiset kuvat alkuperäispiirroksista suoraan kuvattuina ja aiemmin vain Hobitin ensimmäisessä suomennoksessa Lohikäärmevuori käytetyn kannen. Brian Sibley kertoo jälkisanoissaan koko huikean tarinan siitä, kuinka Hobitin kuvitus toi yhteen kolme kirjallista jättiläistä - J. R. R. Tolkienin, Astrid Lindgrenin ja Tove Janssonin.J. R. R. Tolkien (1892-1973) tunnetaan nykyaikaisen fantasiakirjallisuuden isänä, jonka pääteoksia ovat Hobitti ja Taru Sormusten herrasta. Muumi-kirjoistaan kuulu Tove Jansson (1914-2001) kuvitti Tolkienin Hobitin lisäksi mm. Lewis Carrollin Liisan seikkailut ihmemaassa. Brittikirjailija Brian Sibley (s. 1949) on dramatisoinut radiokuunnelman Tolkienin Sormusten herrasta ja oli 20 vuoden ajan kirjeenvaihdossa Tove Janssonin kanssa.`,
+    title: book.nimi || "", // Extract book title
+    author: book.tekija || "", // Extract author
+    publisher: book.kustantaja || "", // Extract publisher
+    year: book.painovuosi || "", // Extract year (assuming "painovuosi" is the publication year)
+    price: book.hinta ? book.hinta.toString() : "", // Convert price to string
+    condition: book.kunto || "", // Extract condition
+    binding: book.sidonta || "", // Extract binding type
+    isbn: book.isbn || "", // Extract ISBN
+    pages: book.sivum || "", // Extract number of pages
+    category: book.paatuoteryhma || "", // Extract category
+    edition: book.painos || "", // Extract edition
+    dimensions: "-", // You don't have a dimensions field in the data
+    description: book.muuta || "", // You can add extra description if needed
+    imageUrl: `${book.kuvat[0]?.file_domain}/${book.kuvat[0]?.file_path}/${book.kuvat[0]?.file_md}`,
   };
 
   const DetailRow = ({ label, value }: { label: string; value: string }) => (

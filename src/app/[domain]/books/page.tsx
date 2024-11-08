@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
 import SearchBooks from "@/components/search-books";
-import { DATA } from "@/data";
+import { getBooksAction } from "@/lib/actions/product.action";
 
 const Page = async ({}) => {
+  const [books] = await Promise.all([getBooksAction()]);
+
   return (
     <div className="w-full min-h-screen h-fit mt-[160px] pt-16 ">
       <MaxWidthWrapper>
@@ -11,7 +14,7 @@ const Page = async ({}) => {
       </MaxWidthWrapper>
       <MaxWidthWrapper className="h-fit my-8 ">
         {/* these books they were comming from the database */}
-        <ProductReel books={DATA} title="Katsotuimmat kirjat" />
+        <ProductReel books={books as any[]} title="Katsotuimmat kirjat" />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="my-8">

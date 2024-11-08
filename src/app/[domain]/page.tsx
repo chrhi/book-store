@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { DATA } from "@/data";
+import { getBooksAction } from "@/lib/actions/product.action";
 
 export default async function Home() {
+  const [books] = await Promise.all([getBooksAction()]);
+
   return (
     <>
       <MaxWidthWrapper className="mt-[160px] pt-16 ">
@@ -34,7 +37,7 @@ export default async function Home() {
 
       <MaxWidthWrapper className="h-fit">
         {/* these books they were comming from the database */}
-        <ProductReel books={DATA} title="UUSIMMAT" />
+        <ProductReel books={books as any[]} title="UUSIMMAT" />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="h-fit">

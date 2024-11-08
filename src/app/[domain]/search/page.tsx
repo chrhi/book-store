@@ -1,4 +1,3 @@
-import type { FC } from "react";
 import FilterSidebar, { FilterMobile } from "@/components/filter";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import SearchBookCard from "@/components/search-book-card";
@@ -8,14 +7,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getBooksAction } from "@/lib/actions/product.action";
 
-const SearchPage: FC = () => {
+const SearchPage = async () => {
   const ITEMS_PER_PAGE = 30;
   const TOTAL_RESULTS = 167;
   const CURRENT_PAGE = 1;
   const TOTAL_PAGES = 6;
 
-  const mockSearchResults = [1, 3, 4, 5];
+  const [books] = await Promise.all([getBooksAction()]);
 
   const PageHeader = () => (
     <MaxWidthWrapper className="my-4 mt-[160px] pt-16 ">
@@ -61,8 +61,9 @@ const SearchPage: FC = () => {
 
   const SearchResultsList = () => (
     <div className="w-full h-fit flex flex-col gap-y-4 px-4 md:px-8">
-      {mockSearchResults.map((item) => (
-        <SearchBookCard key={item} />
+      {books?.map((item) => (
+        // @ts-expect-error this is is bad
+        <SearchBookCard key={item._id.id.$oid} />
       ))}
     </div>
   );
