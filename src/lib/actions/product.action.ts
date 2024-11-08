@@ -7,6 +7,7 @@ import { product } from "../modals/merchant.modal";
 
 export async function getBooksAction() {
   try {
+    await connectToDB();
     const products = await product.find();
 
     return products;
@@ -18,6 +19,7 @@ export async function getBooksAction() {
 
 export async function getBookByIdAction({ id }: { id: string }) {
   try {
+    await connectToDB();
     const data = await product.findById(id);
     return data;
   } catch (err) {
