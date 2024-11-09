@@ -3,7 +3,7 @@
 
 import { Types } from "mongoose";
 import { connectToDB } from "../db";
-import { product } from "../modals/merchant.modal";
+import { product } from "../modals/book.modal";
 
 export async function getBooksAction() {
   try {
