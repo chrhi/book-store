@@ -164,14 +164,10 @@ const BookSearch: React.FC<BookSearchProps> = ({ books }) => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {
-            <ProductReel
-              books={displayedBooks as any[]}
-              title="Katsotuimmat kirjat"
-            />
-          }
-        </div>
+        <ProductReel
+          books={displayedBooks as any[]}
+          title="Katsotuimmat kirjat"
+        />
 
         {displayedBooks.length === 0 && (
           <div className="w-full py-16 flex flex-col items-center justify-center text-gray-500">
