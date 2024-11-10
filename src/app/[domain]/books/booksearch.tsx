@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useMemo, useEffect } from "react";
 import { Search, Book as BookIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import type { Book, BookSearchProps, SearchQuery } from "@/types";
+import ProductReel from "@/components/books-reel";
 
 const BookSearch: React.FC<BookSearchProps> = ({ books }) => {
   const searchParams = useSearchParams();
@@ -163,38 +165,12 @@ const BookSearch: React.FC<BookSearchProps> = ({ books }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {displayedBooks.map((book) => (
-            <div
-              key={book._id.$oid}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-            >
-              <div className="relative w-full h-[200px] bg-gray-100">
-                <div className="w-full h-full flex items-center justify-center">
-                  <BookIcon size={48} className="text-gray-400" />
-                </div>
-              </div>
-              <div className="p-4">
-                <h3 className="font-bold text-lg line-clamp-2 mb-2">
-                  {book.nimi}
-                </h3>
-                <p className="text-gray-600 mb-2">{book.tekija}</p>
-                <div className="flex flex-wrap gap-2 mb-3">
-                  <span className="bg-gray-100 px-2 py-1 rounded-full text-sm">
-                    {book.kieli}
-                  </span>
-                  <span className="bg-gray-100 px-2 py-1 rounded-full text-sm">
-                    {book.paatuoteryhma}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-lg">{book.hinta} €</span>
-                  <span className="text-sm text-gray-500">
-                    Kunto: {book.kunto}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+          {
+            <ProductReel
+              books={displayedBooks as any[]}
+              title="Katsotuimmat kirjat"
+            />
+          }
         </div>
 
         {displayedBooks.length === 0 && (
