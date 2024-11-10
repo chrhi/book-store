@@ -1,17 +1,32 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Search, Book as BookIcon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import type { Book, BookSearchProps, SearchQuery } from "@/types";
 
 const BookSearch: React.FC<BookSearchProps> = ({ books }) => {
-  const [searchQuery, setSearchQuery] = useState<SearchQuery>({
-    query: "",
-    language: "",
-    productGroup: "",
-  });
+  const searchParams = useSearchParams();
 
+  const initialSearchQuery = {
+    query: searchParams.get("book") || "",
+    language: searchParams.get("language") || "",
+    productGroup: searchParams.get("productGroup") || "",
+  };
+
+  const [searchQuery, setSearchQuery] =
+    useState<SearchQuery>(initialSearchQuery);
   const [displayedBooks, setDisplayedBooks] = useState<Book[]>(books || []);
+
+  useEffect(() => {
+    if (
+      initialSearchQuery.query ||
+      initialSearchQuery.language ||
+      initialSearchQuery.productGroup
+    ) {
+      handleSearch();
+    }
+  }, []);
 
   const filteredBooks = useMemo(() => {
     if (!books) return [];
@@ -67,14 +82,6 @@ const BookSearch: React.FC<BookSearchProps> = ({ books }) => {
   ): void => {
     setSearchQuery((prev) => ({ ...prev, [field]: e.target.value }));
   };
-
-  // const getBookImageUrl = (book: Book): string => {
-  //   if (book.kuvat && book.kuvat[0]) {
-  //     const { file_domain, file_path, file_md } = book.kuvat[0];
-  //     return `${file_domain}/${file_path}/${file_md}`;
-  //   }
-  //   return "/placeholder-book.jpg"; // Fallback image
-  // };
 
   return (
     <div className="w-full flex flex-col gap-8">

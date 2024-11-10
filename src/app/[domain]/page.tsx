@@ -4,6 +4,7 @@ import ProductReel from "@/components/books-reel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getBooksAction } from "@/lib/actions/product.action";
+import SearchForm from "@/components/search-books";
 
 export default async function Home() {
   const products = await getBooksAction();
@@ -41,7 +42,7 @@ export default async function Home() {
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="h-fit">
-        <div className="h-fit w-full bg-[#F5F5F5] py-8 rounded-2xl">
+        {/* <div className="h-fit w-full bg-[#F5F5F5] py-8 rounded-2xl">
           <div className="w-full h-[50px] flex items-center justify-center gap-x-4">
             <h2 className="text-black text-[32px] font-bold playfair-display">
               PIKAHAKU
@@ -72,7 +73,9 @@ export default async function Home() {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
+
+        <SearchForm />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="my-8">
