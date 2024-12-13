@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { getAllLanguages } from "@/lib/actions/product.action";
 
 interface FormData {
   book: string;
@@ -15,11 +16,22 @@ const SearchForm = (): JSX.Element => {
   const [formData, setFormData] = useState<FormData>({
     book: "",
     author: "",
-    language: "Valitse kieli",
+    language: "Valitse kieli", // Default option
   });
 
+  const [languages, setLanguages] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchLanguages = async () => {
+      const langs = await getAllLanguages();
+      const filteredLangs = langs.filter((lang) => lang.trim() !== ""); // Filter out empty or whitespace-only values
+      setLanguages(filteredLangs);
+    };
+    fetchLanguages();
+  }, []);
+
   const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement>,
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     field: keyof FormData
   ): void => {
     setFormData((prev) => ({
@@ -29,14 +41,12 @@ const SearchForm = (): JSX.Element => {
   };
 
   const handleSearch = (): void => {
-    // Create search params string
     const searchParams = new URLSearchParams();
-    if (formData.book) searchParams.set("book", formData.book);
+    if (formData.book) searchParams.set("query", formData.book);
     if (formData.author) searchParams.set("author", formData.author);
     if (formData.language !== "Valitse kieli")
       searchParams.set("language", formData.language);
 
-    // Redirect to books page with search params
     router.push(`/books?${searchParams.toString()}`);
   };
 
@@ -70,13 +80,19 @@ const SearchForm = (): JSX.Element => {
         </div>
         <div className="h-[50px] w-[450px] md:w-[600px] flex items-center justify-center gap-x-2">
           <span className="text-black font-bold text-2xl">Kieli</span>
-          <input
+          <select
             value={formData.language}
             onChange={(e) => handleInputChange(e, "language")}
             className="border-black w-[235px] md:w-[385px] px-2 bg-white border-[1px] h-[32px]"
-            type="text"
             aria-label="Language selection"
-          />
+          >
+            <option disabled>Valitse kieli</option>
+            {languages.map((lang) => (
+              <option key={lang} value={lang}>
+                {lang}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="w-full md:w-[600px] h-[100px] flex items-center justify-center md:justify-end md:pr-20">
           <Button

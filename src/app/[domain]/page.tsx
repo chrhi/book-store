@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getBooksAction } from "@/lib/actions/product.action";
 import SearchForm from "@/components/search-books";
+import getVendor from "@/lib/getVendor";
 
 export default async function Home() {
+  const vendor = await getVendor();
   const products = await getBooksAction();
 
   return (
@@ -15,21 +17,21 @@ export default async function Home() {
         <div
           className="w-full h-[389px]  flex rounded-2xl items-center justify-start md:justify-end gap-y-4 relative px-4 md:px-12"
           style={{
-            backgroundImage: "url('/books-y.png')",
+            backgroundImage: url('${vendor?.frontpage.hero}'),
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
         >
           <div className="flex flex-col gap-y-4 items-start md:items-end">
             <h1 className="text-6xl md:text-8xl text-white playfair-display">
-              Otsikko tänne
+              {vendor?.ynimi}
             </h1>
             <p className="text-white text-xl md:text-2xl">
-              Tässä tila lyhyelle tekstille
+              {vendor?.frontpage.excerpt}
             </p>
             <Link href={"/search"}>
               <Button className="bg-[#FFC767] hover:bg-[#da9c33] w-[170px] h-[55px] py-2 px-4 rounded-2xl font-extrabold text-[16px]">
-                Lue lisää »
+                {vendor?.frontpage.readmore.text}
               </Button>
             </Link>
           </div>
@@ -41,42 +43,9 @@ export default async function Home() {
         <ProductReel books={products as any[]} title="UUSIMMAT" />
       </MaxWidthWrapper>
 
-      <MaxWidthWrapper className="h-fit">
-        {/* <div className="h-fit w-full bg-[#F5F5F5] py-8 rounded-2xl">
-          <div className="w-full h-[50px] flex items-center justify-center gap-x-4">
-            <h2 className="text-black text-[32px] font-bold playfair-display">
-              PIKAHAKU
-            </h2>
-          </div>
-          <div className="w-full my-4 flex flex-col items-center min-h-[260px] h-fit gap-x-4">
-            <div className="h-[50px] w-[450px] md:w-[600px] flex items-center justify-center gap-x-2">
-              <span className="text-black font-bold text-2xl">Kirja</span>
-              <input className="border-black w-[235px] md:w-[385px] bg-white border-[1px] h-[32px]" />
-            </div>
-            <div className="h-[50px] w-[450px] md:w-[600px] flex items-center justify-center gap-x-2 mr-[37px]">
-              <span className="text-black font-bold text-2xl">Kirjailija</span>
-              <input className="border-black w-[235px] md:w-[385px] bg-white border-[1px] h-[32px]" />
-            </div>
-            <div className="h-[50px] w-[450px] md:w-[600px] flex items-center justify-center gap-x-2">
-              <span className="text-black font-bold text-2xl">Kieli</span>
-              <input
-                value="Valitse kieli"
-                className="border-black w-[235px] md:w-[385px] px-2 bg-white border-[1px] h-[32px]"
-              />
-            </div>
-
-            <div className="w-full md:w-[600px] h-[100px] flex items-center justify-center md:justify-end md:pr-20">
-              <Link href={"/search"}>
-                <Button className="bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] w-[154px] p-4 px-6">
-                  Hae
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div> */}
-
+      {/* <MaxWidthWrapper className="h-fit">
         <SearchForm />
-      </MaxWidthWrapper>
+      </MaxWidthWrapper> */}
 
       <MaxWidthWrapper className="my-8">
         <div className="w-full min-h-[425px] h-fit grid grid-cols-1 md:grid-cols-2 gap-8">

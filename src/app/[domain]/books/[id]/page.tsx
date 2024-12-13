@@ -21,11 +21,6 @@ export default async function Page({
     }),
   ]);
 
-  console.log("this is the id ");
-  console.log(id);
-
-  console.log(bookData);
-
   return (
     <div className="w-full min-h-screen h-fit mt-[160px] pt-16 ">
       <MaxWidthWrapper className="my-8 h-fit">

@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
+    "incremental": false,
     "plugins": [
       {
         "name": "next"
@@ -27,7 +27,11 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/seed.js"
+    "src/seed.js",
+    "src/app/[domain]/books/booksearch.js",
+    "src/components/books-reel.js",
+    "src/lib/actions/product.action.js",
+    "src/app/[domain]/search/client-page.js"
   ],
   "exclude": ["node_modules"]
 }

@@ -34,10 +34,6 @@ export interface Book {
   [key: string]: any; // for other potential properties
 }
 
-export interface BookSearchProps {
-  books: Book[];
-}
-
 export interface SearchQuery {
   query: string;
   language: string;

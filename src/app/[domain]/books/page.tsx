@@ -1,16 +1,40 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import MaxWidthWrapper from "@/components/max-width-wrapper";
-import { getBooksAction } from "@/lib/actions/product.action";
-import BookSearch from "./booksearch";
-import { Book } from "@/types";
+import BookSearch from "./booksearch.js";
+import { findBooks } from "@/lib/actions/product.action"; // Import the fetchBooks function
 
-const Page = async ({}) => {
-  const [books] = await Promise.all([getBooksAction()]);
+interface SearchParams {
+  query: string;
+  language: string;
+  productGroup: string;
+  author: string;
+}
+
+interface PageProps {
+  allBooks:
+    | Array<{
+        id: string;
+        title: string;
+        author: string;
+        language?: string;
+        productGroup?: string;
+      }>
+    | undefined;
+  searchParams: SearchParams;
+}
+
+async function Page({ searchParams }: PageProps) {
+  // Use fetchBooks instead of getFilteredBooks
+  const filteredBooks = await findBooks({
+    title: searchParams.query,
+    language: searchParams.language,
+    productGroup: searchParams.productGroup,
+    author: searchParams.author,
+  });
 
   return (
-    <div className="w-full min-h-screen h-fit mt-[160px] pt-16 ">
+    <div className="w-full min-h-screen h-fit mt-[160px] pt-16">
       <MaxWidthWrapper>
-        <BookSearch books={books as Book[]} />
+        <BookSearch allBooks={filteredBooks} searchParams={searchParams} />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="my-8">
@@ -22,16 +46,15 @@ const Page = async ({}) => {
             backgroundPosition: "center",
           }}
         >
-          <div className=" absolute inset-0 rounded-2xl bg-black/55 z-[1]" />
-          <div className="w-full h-full flex  flex-col z-[2] gap-y-4">
+          <div className="absolute inset-0 rounded-2xl bg-black/55 z-[1]" />
+          <div className="w-full h-full flex flex-col z-[2] gap-y-4">
             <h2 className="text-white text-[64px] playfair-display">
               Salpakirja Oy
             </h2>
-
             <p className="text-white font-bold text-md my-2">
               Salpakirja Oy on kirjakauppa ja antikvariaatti, jonka kaikki
               tuotteet löytyvät myös verkkokaupoista www.salpakirja.net ja
-              www.antikvaari.fi. Salpakirjan  Kirjaspotti -nimellä toimivat
+              www.antikvaari.fi. Salpakirjan Kirjaspotti -nimellä toimivat
               liikkeet löydät Kotkasta ja Haminasta.
             </p>
             <span className="text-white font-bold text-md my-2">
@@ -51,6 +74,6 @@ const Page = async ({}) => {
       </MaxWidthWrapper>
     </div>
   );
-};
+}
 
 export default Page;

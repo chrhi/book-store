@@ -5,36 +5,9 @@ import { Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Link from "next/link";
 
-const LINKS = [
-  {
-    name: "ETUSIVU",
-    href: "/",
-  },
-
-  {
-    name: "AIHEALUEET",
-    href: "/",
-  },
-  {
-    name: "OSTAMME",
-    href: "/",
-  },
-  {
-    name: "MESSUKALENTERI",
-    href: "/",
-  },
-  {
-    name: "MYYNTIPISTEET",
-    href: "/",
-  },
-  {
-    name: "TOIMITUSEHDOT",
-    href: "/",
-  },
-];
-
-const MobileNav = () => {
+const MobileNav = ({ pages }) => {
   const [isOpen, setOpen] = useState<boolean>(true);
 
   const toggleOpen = () => setOpen((prev) => !prev);
@@ -63,15 +36,17 @@ const MobileNav = () => {
             <h2 className="font-bold text-3xl ">All the links</h2>
           </div>
           <div className="w-full h-fit flex flex-col gap-y-4">
-            {LINKS.map((item) => {
+            {pages.map((item) => {
               return (
                 <div key={item.name} className="w-full h-[50px]  ">
-                  <Button
-                    className="w-full flex items-center justify-start font-bold h-14 text-black "
-                    variant={"ghost"}
-                  >
-                    {item.name}
-                  </Button>
+                  <Link href={"/"}>
+                    <Button
+                      className="w-full flex items-center justify-start font-bold h-14 text-black "
+                      variant={"ghost"}
+                    >
+                      {item.name}
+                    </Button>
+                  </Link>
                 </div>
               );
             })}

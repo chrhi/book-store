@@ -22,10 +22,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const headersList = await headers();
-
-  // const { subdomain, domain } = getDomainFromHeaders(headersList);
-
   return (
     <html lang="en">
       <body className={` antialiased min-h-screen h-fit`}>
