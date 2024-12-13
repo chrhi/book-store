@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -25,7 +26,7 @@ async function fetchBooks(queryParams: string) {
 const SearchPage = () => {
   const searchParams = useSearchParams(); // Hook to read query parameters
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   // State for filter and pagination
   const [filters, setFilters] = useState({

@@ -132,7 +132,7 @@ export async function getFilteredBooks(
   if (productGroup) params.append("productGroup", productGroup);
   if (author) params.append("author", author);
 
-  const response = await fetch(/api/books?${params.toString()});
+  const response = await fetch(`/api/books?${params.toString()}`);
   const data = await response.json();
   return data.books || [];
 }

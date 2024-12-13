@@ -1,8 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // 'use client'; is needed to indicate that this component uses client-side interactivity
 "use client";
 
 import { useCartStore } from "@/store/useCartStore";
 import { FC, useState } from "react";
+
+interface AddToCartButtonProps {
+  id: string;
+  image: string;
+  title: string;
+  price: string;
+  subtitle: string;
+  condition: string;
+  binding: string;
+}
 
 const AddToCartButton: FC<AddToCartButtonProps> = ({
   id,

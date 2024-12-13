@@ -1,29 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import { Search, Book as BookIcon } from "lucide-react";
 import ProductReel from "@/components/books-reel";
-import getVendor from "@/lib/getVendor";
 import Link from "next/link";
-import { getAllGroups, getAllLanguages } from "@/lib/actions/product.action";
-import { findBooks } from "@/lib/actions/product.action"; // Import fetchBooks
 
-const BookSearch = async ({ allBooks, searchParams }) => {
-  const vendor = await getVendor();
-  const languages = await getAllLanguages();
-  const groups = await getAllGroups();
+interface Props {
+  filteredBooks: any[];
+  vendor: any;
+  languages: any[];
+  groups: any[];
+  query: string;
+  productGroup: string;
+  language: string;
+}
 
-  // Extract search parameters from the URL
-  const query = searchParams?.query || "";
-  const language = searchParams?.language || "";
-  const productGroup = searchParams?.productGroup || "";
-  const author = searchParams?.author || "";
-
-  // Fetch books based on search parameters using fetchBooks
-  const filteredBooks = await findBooks({
-    title: query,
-    language,
-    productGroup,
-    author,
-  });
-
+const BookSearch = ({
+  query,
+  filteredBooks,
+  groups,
+  languages,
+  vendor,
+  productGroup,
+  language,
+}: Props) => {
   return (
     <div className="w-full flex flex-col gap-8">
       {/* Search Section */}

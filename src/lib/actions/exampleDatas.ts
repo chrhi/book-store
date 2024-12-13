@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { Groupe } from "../modals/group.modal"; // make sure the path is correct
 
 async function addGroupEntry(

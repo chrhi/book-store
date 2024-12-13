@@ -1,6 +1,11 @@
 import MaxWidthWrapper from "@/components/max-width-wrapper";
-import BookSearch from "./booksearch.js";
-import { findBooks } from "@/lib/actions/product.action"; // Import the fetchBooks function
+import BookSearch from "./booksearch";
+import {
+  findBooks,
+  getAllGroups,
+  getAllLanguages,
+} from "@/lib/actions/product.action"; // Import the fetchBooks function
+import getVendor from "@/lib/getVendor.js";
 
 interface SearchParams {
   query: string;
@@ -9,32 +14,32 @@ interface SearchParams {
   author: string;
 }
 
-interface PageProps {
-  allBooks:
-    | Array<{
-        id: string;
-        title: string;
-        author: string;
-        language?: string;
-        productGroup?: string;
-      }>
-    | undefined;
-  searchParams: SearchParams;
-}
-
-async function Page({ searchParams }: PageProps) {
-  // Use fetchBooks instead of getFilteredBooks
-  const filteredBooks = await findBooks({
-    title: searchParams.query,
-    language: searchParams.language,
-    productGroup: searchParams.productGroup,
-    author: searchParams.author,
-  });
+async function Page({ params }: { params: Promise<SearchParams> }) {
+  const { author, language, productGroup, query } = await params;
+  const [vendor, languages, groups, filteredBooks] = await Promise.all([
+    getVendor(),
+    getAllLanguages(),
+    getAllGroups(),
+    findBooks({
+      title: query,
+      language: language,
+      productGroup: productGroup,
+      author: author,
+    }),
+  ]);
 
   return (
     <div className="w-full min-h-screen h-fit mt-[160px] pt-16">
       <MaxWidthWrapper>
-        <BookSearch allBooks={filteredBooks} searchParams={searchParams} />
+        <BookSearch
+          filteredBooks={filteredBooks}
+          vendor={vendor}
+          languages={languages}
+          groups={groups}
+          query={query}
+          productGroup={productGroup}
+          language={language}
+        />
       </MaxWidthWrapper>
 
       <MaxWidthWrapper className="my-8">
