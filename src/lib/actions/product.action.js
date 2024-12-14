@@ -7,6 +7,7 @@ import { connectToDB } from "../db";
 import { product } from "../modals/book.modal";
 import getVendor from "../getVendor";
 import { Groupe } from "../modals/group.modal";
+import { cache } from "react";
 
 // Helper function to map images (avoids repeating code)
 function mapImages(images) {
@@ -58,26 +59,67 @@ function mapOldData(oldData) {
   };
 }
 
-export async function getBooksAction() {
-  await connectToDB();
-  const vendor = await getVendor();
-  const products = await product.find({ y_id: vendor?.antikvaari_id }).limit(5);
-  return products;
-}
+// Cached books action with error handling and timeout management
+export const getBooksAction = cache(async () => {
+  try {
+    // Set a timeout of 5 seconds
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Database query timed out")), 5000)
+    );
 
-export async function getAllBooks() {
-  await connectToDB();
-  const vendor = await getVendor();
-  const products = await product.find({ y_id: vendor?.antikvaari_id });
-  return products;
-}
+    const vendor = await Promise.race([cachedGetVendor(), timeoutPromise]);
+
+    // If no vendor found, return empty array
+    if (!vendor?.antikvaari_id) {
+      return [];
+    }
+
+    // Use another timeout-protected promise for database query
+    const productsPromise = product
+      .find({
+        y_id: vendor.antikvaari_id,
+      })
+      .limit(5)
+      .lean(); // .lean() for faster query
+
+    const products = await Promise.race([productsPromise, timeoutPromise]);
+
+    return products;
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    return []; // Return empty array on error
+  }
+});
+
+export const getAllBooks = cache(async () => {
+  try {
+    await connectToDB();
+    const vendor = await cachedGetVendor();
+
+    if (!vendor?.antikvaari_id) {
+      return [];
+    }
+
+    // Use lean() for performance and limit results
+    const products = await product
+      .find({ y_id: vendor.antikvaari_id })
+      .select("nimi tekija hinta") // Select only necessary fields
+      .limit(100) // Limit total number of books
+      .lean();
+
+    return products;
+  } catch (error) {
+    console.error("Error fetching all books:", error);
+    return [];
+  }
+});
 
 export async function getAllLanguages() {
-  await connectToDB(); // Ensure database connection
-  const vendor = await getVendor(); // Fetch vendor details
+  await connectToDB();
+  const vendor = await getVendor();
 
   if (!vendor?.antikvaari_id) {
-    return []; // If vendor ID is missing, return empty array
+    return [];
   }
 
   // Query products using vendor's antikvaari_id

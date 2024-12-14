@@ -1,16 +1,13 @@
+import type { Metadata } from "next";
 import "./globals.css";
+import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/header";
+import { Toaster } from "@/components/ui/sonner";
 
 // these are subdomain related stuff i am not using theme so i commented them
 // import { headers } from "next/headers";
 // import { getDomainFromHeaders, isValidSubdomain } from "@/lib/domains";
 // import { redirect } from "next/navigation";
-
-import type { Metadata } from "next";
-
-import "./globals.css";
-import Footer from "@/components/layout/footer";
-import Header from "@/components/layout/header";
-import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Otsikko tänne",
