@@ -3,6 +3,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 import { getAllLanguages } from "@/lib/actions/product.action";
 
 interface FormData {
@@ -20,6 +21,7 @@ const SearchForm = (): JSX.Element => {
   });
 
   const [languages, setLanguages] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchLanguages = async () => {
@@ -41,16 +43,26 @@ const SearchForm = (): JSX.Element => {
   };
 
   const handleSearch = (): void => {
-    console.log("we are clicking the algorithme");
+    // Prevent multiple submissions
+    if (isLoading) return;
+
+    setIsLoading(true);
+
     const searchParams = new URLSearchParams();
     if (formData.book) searchParams.set("query", formData.book);
     if (formData.author) searchParams.set("author", formData.author);
-    // if (formData.language !== "Valitse kieli")
-    //   searchParams.set("language", formData.language);
+    if (formData.language !== "Valitse kieli")
+      searchParams.set("language", formData.language);
 
-    console.log("function cliked");
-    console.log(searchParams.toString());
-    router.push(`/books?${searchParams.toString()}`);
+    // Simulate a minimum loading time to ensure user sees the loading state
+    setTimeout(() => {
+      try {
+        router.push(`/books?${searchParams.toString()}`);
+      } catch (error) {
+        console.error("Navigation error:", error);
+        setIsLoading(false);
+      }
+    }, 500);
   };
 
   return (
@@ -69,6 +81,7 @@ const SearchForm = (): JSX.Element => {
             onChange={(e) => handleInputChange(e, "book")}
             type="text"
             aria-label="Book search"
+            disabled={isLoading}
           />
         </div>
         <div className="h-[50px] w-[450px] md:w-[600px] flex items-center justify-center gap-x-2 mr-[37px]">
@@ -79,6 +92,7 @@ const SearchForm = (): JSX.Element => {
             onChange={(e) => handleInputChange(e, "author")}
             type="text"
             aria-label="Author search"
+            disabled={isLoading}
           />
         </div>
         <div className="h-[50px] w-[450px] md:w-[600px] flex items-center justify-center gap-x-2">
@@ -88,6 +102,7 @@ const SearchForm = (): JSX.Element => {
             onChange={(e) => handleInputChange(e, "language")}
             className="border-black w-[235px] md:w-[385px] px-2 bg-white border-[1px] h-[32px]"
             aria-label="Language selection"
+            disabled={isLoading}
           >
             <option disabled>Valitse kieli</option>
             {languages.map((lang) => (
@@ -100,9 +115,17 @@ const SearchForm = (): JSX.Element => {
         <div className="w-full md:w-[600px] h-[100px] flex items-center justify-center md:justify-end md:pr-20">
           <Button
             onClick={handleSearch}
-            className="bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] w-[154px] p-4 px-6"
+            className="bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] w-[154px] p-4 px-6 relative"
+            disabled={isLoading}
           >
-            Hae
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin absolute left-4" />
+                Haetaan...
+              </>
+            ) : (
+              "Hae"
+            )}
           </Button>
         </div>
       </div>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
@@ -154,23 +155,6 @@ export async function getBookByIdAction({ id }: { id: string }) {
   }
 }
 
-export async function getFilteredBooks(
-  query = "",
-  language = "",
-  productGroup = "",
-  author = ""
-) {
-  const params = new URLSearchParams();
-  if (query) params.append("query", query);
-  if (language) params.append("language", language);
-  if (productGroup) params.append("productGroup", productGroup);
-  if (author) params.append("author", author);
-
-  const response = await fetch(`/api/books?${params.toString()}`);
-  const data = await response.json();
-  return data.books || [];
-}
-
 export const findBooks = async ({
   title,
   language,
@@ -178,57 +162,26 @@ export const findBooks = async ({
   author,
 }: BookSearchParams): Promise<BookDocument[]> => {
   try {
-    // Build the query object with strict typing
-    const query: Record<string, unknown> = {};
-
-    // Dynamically add search conditions with type-safe checks
-    if (title) {
-      query.nimi = {
-        $regex: new RegExp(title, "i"),
-      };
-    }
-
-    if (language) {
-      query.kieli = language;
-    }
-
-    if (productGroup) {
-      query.tuoteryhma = productGroup;
-    }
-
-    if (author) {
-      query.tekija = {
-        $regex: new RegExp(author, "i"),
-      };
-    }
-
-    // Get the vendor's information with proper typing
+    // Get the vendor's information early to do a quick check
     const vendor: Vendor | null = await getVendor();
-
-    // Early return if no vendor found
     if (!vendor?.antikvaari_id) {
       return [];
     }
 
-    // Optimize query using $match and $in operators
+    // Build the query object more efficiently
+    const query: Record<string, unknown> = {
+      y_id: vendor.antikvaari_id,
+    };
+
+    // Optimized condition addition
+    title && (query.nimi = { $regex: new RegExp(title, "i") });
+    language && (query.kieli = language);
+    productGroup && (query.tuoteryhma = productGroup);
+    author && (query.tekija = { $regex: new RegExp(author, "i") });
+
+    // Single-stage aggregation with consolidated matching
     const books = await product
-      .aggregate([
-        // First stage: Match products by vendor's ID
-        {
-          $match: {
-            y_id: vendor.antikvaari_id,
-          },
-        },
-        // Second stage: Apply search filters
-        {
-          $match: {
-            ...query,
-            y_id: vendor.antikvaari_id,
-          },
-        },
-        // Limit results
-        { $limit: 10 },
-      ])
+      .aggregate([{ $match: query }, { $limit: 10 }])
       .exec();
 
     return books as BookDocument[];

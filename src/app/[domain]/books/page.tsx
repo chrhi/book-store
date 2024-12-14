@@ -1,10 +1,12 @@
+import { Suspense } from "react";
+import { unstable_noStore as noStore } from "next/cache";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import BookSearch from "./booksearch";
 import {
   findBooks,
   getAllGroups,
   getAllLanguages,
-} from "@/lib/actions/product.action"; // Import the fetchBooks function
+} from "@/lib/actions/product.action";
 import getVendor from "@/lib/getVendor";
 
 interface SearchParams {
@@ -14,8 +16,33 @@ interface SearchParams {
   author: string;
 }
 
-async function Page({ params }: { params: Promise<SearchParams> }) {
-  const { author, language, productGroup, query } = await params;
+// Loading component for Suspense
+function BookSearchSkeleton() {
+  return (
+    <div className="w-full min-h-screen animate-pulse">
+      <div className="bg-gray-200 h-16 w-full mb-4"></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="bg-gray-200 h-32 rounded-lg"></div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+async function BookSearchContent({
+  query,
+  language,
+  productGroup,
+  author,
+}: {
+  query?: string;
+  language?: string;
+  productGroup?: string;
+  author?: string;
+}) {
+  noStore(); // Disable caching for dynamic content
+
   const [vendor, languages, groups, filteredBooks] = await Promise.all([
     getVendor(),
     getAllLanguages(),
@@ -29,19 +56,37 @@ async function Page({ params }: { params: Promise<SearchParams> }) {
   ]);
 
   return (
+    <BookSearch
+      filteredBooks={filteredBooks}
+      vendor={vendor}
+      languages={languages}
+      groups={groups}
+      query={query ?? ""}
+      productGroup={productGroup ?? ""}
+      language={language ?? ""}
+    />
+  );
+}
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<SearchParams>;
+}) {
+  const { query, language, productGroup, author } = await params;
+
+  return (
     <div className="w-full min-h-screen h-fit mt-[160px] pt-16">
       <MaxWidthWrapper>
-        <BookSearch
-          filteredBooks={filteredBooks}
-          vendor={vendor}
-          languages={languages}
-          groups={groups}
-          query={query}
-          productGroup={productGroup}
-          language={language}
-        />
+        <Suspense fallback={<BookSearchSkeleton />}>
+          <BookSearchContent
+            query={query}
+            language={language}
+            productGroup={productGroup}
+            author={author}
+          />
+        </Suspense>
       </MaxWidthWrapper>
-
       <MaxWidthWrapper className="my-8">
         <div
           className="w-full min-h-[525px] h-fit p-8 rounded-2xl relative grid grid-cols-1 md:grid-cols-2"
@@ -80,5 +125,3 @@ async function Page({ params }: { params: Promise<SearchParams> }) {
     </div>
   );
 }
-
-export default Page;
