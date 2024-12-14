@@ -1,6 +1,6 @@
 [
   {
-    "domain": "localhost:3001",
+    "domain": "book-store-roan-psi.vercel.app",
     "_id": {
       "$oid": "00000504e92b760440046059"
     },

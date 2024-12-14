@@ -30,7 +30,7 @@
     "src/seed.js",
     "src/app/[domain]/books/booksearch.tsx",
     "src/components/books-reel.js",
-    "src/lib/actions/product.action.js",
+    "src/lib/actions/product.action.ts",
     "src/app/[domain]/search/client-page.ts",
     "src/app/[domain]/search/client-page.js"
   ],

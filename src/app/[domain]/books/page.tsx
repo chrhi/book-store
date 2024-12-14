@@ -5,7 +5,7 @@ import {
   getAllGroups,
   getAllLanguages,
 } from "@/lib/actions/product.action"; // Import the fetchBooks function
-import getVendor from "@/lib/getVendor.js";
+import getVendor from "@/lib/getVendor";
 
 interface SearchParams {
   query: string;
