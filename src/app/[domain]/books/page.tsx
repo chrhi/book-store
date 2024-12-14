@@ -4,8 +4,8 @@ import MaxWidthWrapper from "@/components/max-width-wrapper";
 import BookSearch from "./booksearch";
 import {
   findBooks,
-  getAllGroups,
-  getAllLanguages,
+  // getAllGroups,
+  // getAllLanguages,
 } from "@/lib/actions/product.action";
 import getVendor from "@/lib/getVendor";
 
@@ -42,11 +42,11 @@ async function BookSearchContent({
   author?: string;
 }) {
   noStore(); // Disable caching for dynamic content
-
-  const [vendor, languages, groups, filteredBooks] = await Promise.all([
+  // languages, groups,
+  const [vendor, filteredBooks] = await Promise.all([
     getVendor(),
-    getAllLanguages(),
-    getAllGroups(),
+    // getAllLanguages(),
+    // getAllGroups(),
     findBooks({
       title: query,
       language: language,
@@ -59,8 +59,8 @@ async function BookSearchContent({
     <BookSearch
       filteredBooks={filteredBooks}
       vendor={vendor}
-      languages={languages}
-      groups={groups}
+      languages={["france"]}
+      groups={["groupe"]}
       query={query ?? ""}
       productGroup={productGroup ?? ""}
       language={language ?? ""}
