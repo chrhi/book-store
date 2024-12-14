@@ -97,13 +97,17 @@ function mapOldData(oldData: {
 export async function getBooksAction() {
   await connectToDB();
   const vendor = await getVendor();
-  const products = await product.find({ y_id: vendor?.antikvaari_id }).limit(5);
+  const products = await product
+    .find({ y_id: vendor?.antikvaari_id })
+    .limit(10);
   return products;
 }
 export async function getAllBooks() {
   await connectToDB();
   const vendor = await getVendor();
-  const products = await product.find({ y_id: vendor?.antikvaari_id });
+  const products = await product
+    .find({ y_id: vendor?.antikvaari_id })
+    .limit(15);
   return products;
 }
 
@@ -148,6 +152,8 @@ export async function getBookByIdAction({ id }: { id: string }) {
   try {
     await connectToDB();
     const data = await product.findById(id);
+
+    console.log(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -164,25 +170,43 @@ export const findBooks = async ({
   try {
     // Get the vendor's information early to do a quick check
     const vendor: Vendor | null = await getVendor();
+    console.log("Vendor:", vendor); // Add this line to log vendor details
+
     if (!vendor?.antikvaari_id) {
       return [];
     }
 
+    console.log(title);
     // Build the query object more efficiently
     const query: Record<string, unknown> = {
       y_id: vendor.antikvaari_id,
     };
 
     // Optimized condition addition
-    title && (query.nimi = { $regex: new RegExp(title, "i") });
-    language && (query.kieli = language);
-    productGroup && (query.tuoteryhma = productGroup);
-    author && (query.tekija = { $regex: new RegExp(author, "i") });
+    if (title) {
+      query.nimi = { $regex: new RegExp(title, "i") };
+      console.log("Title regex:", query.nimi); // Log title regex
+    }
+    if (language) {
+      query.kieli = language;
+    }
+    if (productGroup) {
+      query.tuoteryhma = productGroup;
+    }
+    if (author) {
+      query.tekija = { $regex: new RegExp(author, "i") };
+      console.log("Author regex:", query.tekija); // Log author regex
+    }
+
+    console.log("Full query object:", query); // Log full query object
 
     // Single-stage aggregation with consolidated matching
     const books = await product
-      .aggregate([{ $match: query }, { $limit: 10 }])
+      .aggregate([{ $match: query }, { $limit: 30 }])
       .exec();
+
+    console.log("Number of books found:", books.length);
+    console.log("Books matching this query:", books);
 
     return books as BookDocument[];
   } catch (error) {

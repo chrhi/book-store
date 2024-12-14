@@ -69,12 +69,14 @@ async function BookSearchContent({
 }
 
 export default async function Page({
-  params,
+  searchParams,
 }: {
-  params: Promise<SearchParams>;
+  searchParams: Promise<SearchParams>;
 }) {
-  const { query, language, productGroup, author } = await params;
+  const { query, language, productGroup, author } = await searchParams;
 
+  console.log("this is the query we are getting from the server");
+  console.log(query);
   return (
     <div className="w-full min-h-screen h-fit mt-[160px] pt-16">
       <MaxWidthWrapper>

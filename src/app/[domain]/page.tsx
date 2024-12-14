@@ -3,12 +3,13 @@ import MaxWidthWrapper from "@/components/max-width-wrapper";
 import ProductReel from "@/components/books-reel";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getBooksAction } from "@/lib/actions/product.action";
+// import { getBooksAction } from "@/lib/actions/product.action";
 import getVendor from "@/lib/getVendor";
 import SearchForm from "@/components/search-books";
+import { getAllBooks } from "@/lib/actions/product.action";
 
 export default async function Home() {
-  const [vendor, products] = await Promise.all([getVendor(), getBooksAction()]);
+  const [vendor, products] = await Promise.all([getVendor(), getAllBooks()]);
 
   return (
     <>
