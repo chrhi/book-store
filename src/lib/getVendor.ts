@@ -1,5 +1,4 @@
 "use server";
-
 import { headers } from "next/headers";
 import vendors from "@/vendors.json";
 import { Vendor } from "@/types";
@@ -9,11 +8,13 @@ const vendorMap = new Map(vendors.map((vendor) => [vendor.domain, vendor]));
 
 export default async function getVendor(): Promise<Vendor | null> {
   const awaitedHeaders = await headers();
-
-  const domain = awaitedHeaders.get("host");
+  const rawDomain = awaitedHeaders.get("host");
 
   // Early return if no domain
-  if (!domain) return null;
+  if (!rawDomain) return null;
+
+  // Decode the domain to handle potential URI-encoded characters
+  const domain = decodeURIComponent(rawDomain);
 
   return vendorMap.get(domain) || null;
 }
