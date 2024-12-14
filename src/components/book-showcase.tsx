@@ -1,14 +1,20 @@
-import React, { FC } from "react";
-import Image from "next/image";
+import { FC } from "react";
 import AddToCartButton from "./addToCart";
 
-interface Book {
+interface ImageDetails {
+  file_domain: string;
+  file_path: string;
+  file_md: string;
+}
+
+interface BookDetails {
   _id: string;
+  kuvat: ImageDetails[];
   nimi: string;
   tekija: string;
   painovuosi: string;
   kustantajaHaku: string;
-  hinta: number;
+  hinta: number | string;
   kunto: string;
   sidonta: string;
   isbn: string;
@@ -16,55 +22,37 @@ interface Book {
   tuoteryhma: string;
   painos: string;
   description: string;
-  kuvat: Array<{
-    file_domain: string;
-    file_path: string;
-    file_md: string;
-  }>;
 }
 
-interface BookShowcaseProps {
-  book: Book;
+interface Props {
+  book: BookDetails;
 }
 
-const BookShowcase: FC<BookShowcaseProps> = ({ book }) => {
-  // Memoize derived values to prevent unnecessary recalculations
-  const imageURL = React.useMemo(() => {
-    const firstImage = book.kuvat[0];
-    return firstImage
-      ? `${firstImage.file_domain}/${firstImage.file_path}/${firstImage.file_md}`
-      : "/placeholder-book.jpg";
-  }, [book.kuvat]);
+const BookShowcase: FC<Props> = ({ book }) => {
+  const imageURL = book.kuvat[0]
+    ? `${book.kuvat[0].file_domain}/${book.kuvat[0].file_path}/${book.kuvat[0].file_md}`
+    : "/placeholder-image.jpg"; // Add a fallback image
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="w-full px-4">
       <div className="flex flex-col gap-y-2 my-4">
-        <h1 className="text-2xl md:text-4xl font-bold font-serif">
+        <h1 className="text-2xl md:text-4xl font-bold playfair-display">
           {book.nimi}
         </h1>
         <span className="text-lg underline">{book.tekija}</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        <div className="md:col-span-4 lg:col-span-3">
-          <div className="relative aspect-[3/4] max-w-[300px] mx-auto md:mx-0">
-            <Image
-              src={imageURL}
-              alt={book.nimi}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover rounded-lg shadow-md"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = "/placeholder-book.jpg";
-              }}
-            />
-          </div>
+      <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-8">
+        <div className="w-full md:col-span-4 lg:col-span-3">
+          <img
+            className="w-full max-w-[300px] mx-auto md:mx-0"
+            src={imageURL}
+            alt={book.nimi}
+          />
         </div>
 
-        <div className="md:col-span-8 lg:col-span-9">
+        <div className="w-full md:col-span-8 lg:col-span-9">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {/* Book Details Section */}
             <div>
               <h2 className="text-xl md:text-2xl font-bold mb-2">
                 {book.tekija}: {book.nimi}
@@ -78,14 +66,11 @@ const BookShowcase: FC<BookShowcaseProps> = ({ book }) => {
             </div>
 
             <div className="flex flex-col gap-y-2">
-              <h3 className="text-2xl md:text-3xl font-bold font-serif">
-                {book.hinta.toFixed(2)} €
+              <h3 className="text-2xl md:text-3xl font-bold playfair-display">
+                {book.hinta} €
               </h3>
-              <p className="text-sm text-gray-600">
-                Lähetetään 1-2 arkipäivässä
-              </p>
-              <p className="text-sm text-gray-600">Toimitus Suomeen 6,90 €</p>
-
+              <p className="text-sm">Lähetetään 1-2 arkipäivässä.</p>
+              <p className="text-sm">Toimitus Suomeen 6,90 €</p>
               <AddToCartButton
                 id={book._id}
                 image={imageURL}
@@ -98,38 +83,50 @@ const BookShowcase: FC<BookShowcaseProps> = ({ book }) => {
             </div>
           </div>
 
-          <div className="border-t border-gray-200 pt-6">
+          <div className="w-full border-t border-gray-200 pt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 mb-8">
               <div>
-                {[
-                  { label: "Kunto", value: book.kunto },
-                  { label: "Sidonta", value: book.sidonta },
-                  { label: "ISBN", value: book.isbn },
-                  { label: "Sivuja", value: book.sivum },
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex items-start py-1 gap-x-2">
-                    <span className="font-semibold min-w-[100px]">
-                      {label}:
-                    </span>
-                    <span>{value}</span>
-                  </div>
-                ))}
+                <div className="w-full py-1 flex items-start gap-x-2">
+                  <span className="font-semibold min-w-[100px]">Kunto:</span>
+                  <span>{book.kunto}</span>
+                </div>
+                <div className="w-full py-1 flex items-start gap-x-2">
+                  <span className="font-semibold min-w-[100px]">Sidonta:</span>
+                  <span>{book.sidonta}</span>
+                </div>
+                <div className="w-full py-1 flex items-start gap-x-2">
+                  <span className="font-semibold min-w-[100px]">ISBN:</span>
+                  <span>{book.isbn}</span>
+                </div>
+                <div className="w-full py-1 flex items-start gap-x-2">
+                  <span className="font-semibold min-w-[100px]">Sivuja:</span>
+                  <span>{book.sivum}</span>
+                </div>
               </div>
 
               <div>
-                {[
-                  { label: "Tuoteryhmä", value: book.tuoteryhma },
-                  { label: "Painos", value: book.painos },
-                  { label: "Kustantaja", value: book.kustantajaHaku },
-                  { label: "Tuotteen mitat", value: book.sidonta },
-                ].map(({ label, value }) => (
-                  <div key={label} className="flex items-start py-1 gap-x-2">
-                    <span className="font-semibold min-w-[100px]">
-                      {label}:
-                    </span>
-                    <span>{value}</span>
-                  </div>
-                ))}
+                <div className="w-full py-1 flex items-start gap-x-2">
+                  <span className="font-semibold min-w-[100px]">
+                    Tuoteryhmä:
+                  </span>
+                  <span>{book.tuoteryhma}</span>
+                </div>
+                <div className="w-full py-1 flex items-start gap-x-2">
+                  <span className="font-semibold min-w-[100px]">Painos:</span>
+                  <span>{book.painos}</span>
+                </div>
+                <div className="w-full py-1 flex items-start gap-x-2">
+                  <span className="font-semibold min-w-[100px]">
+                    Kustantaja:
+                  </span>
+                  <span>{book.kustantajaHaku}</span>
+                </div>
+                <div className="w-full py-1 flex items-start gap-x-2">
+                  <span className="font-semibold min-w-[100px]">
+                    Tuotteen mitat:
+                  </span>
+                  <span>{book.sidonta}</span>
+                </div>
               </div>
             </div>
 
@@ -145,4 +142,4 @@ const BookShowcase: FC<BookShowcaseProps> = ({ book }) => {
   );
 };
 
-export default React.memo(BookShowcase);
+export default BookShowcase;
