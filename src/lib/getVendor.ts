@@ -12,9 +12,6 @@ export default async function getVendor(): Promise<Vendor | null> {
 
   const domain = awaitedHeaders.get("host");
 
-  console.log("this is the domain");
-  console.log(domain);
-
   // Early return if no domain
   if (!domain) return null;
 

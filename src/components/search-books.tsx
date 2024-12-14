@@ -41,12 +41,15 @@ const SearchForm = (): JSX.Element => {
   };
 
   const handleSearch = (): void => {
+    console.log("we are clicking the algorithme");
     const searchParams = new URLSearchParams();
     if (formData.book) searchParams.set("query", formData.book);
     if (formData.author) searchParams.set("author", formData.author);
-    if (formData.language !== "Valitse kieli")
-      searchParams.set("language", formData.language);
+    // if (formData.language !== "Valitse kieli")
+    //   searchParams.set("language", formData.language);
 
+    console.log("function cliked");
+    console.log(searchParams.toString());
     router.push(`/books?${searchParams.toString()}`);
   };
 

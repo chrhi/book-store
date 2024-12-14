@@ -29,7 +29,6 @@ export default async function Page({
 
       <MaxWidthWrapper className="h-fit my-8 ">
         <ProductReel
-          // these books they were comming from the database but i removed the action call
           books={books as any[]}
           title="Tuote-ehdotukset"
           desc="Ehdotukset perustuvat esitetyn tuotteen tekijään, tuoteryhmään tai aiheisiin."

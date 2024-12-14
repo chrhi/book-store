@@ -7,8 +7,6 @@ import { getBooksAction } from "@/lib/actions/product.action";
 import getVendor from "@/lib/getVendor";
 import SearchForm from "@/components/search-books";
 
-export const revalidate = 3600;
-
 export default async function Home() {
   const [vendor, products] = await Promise.all([getVendor(), getBooksAction()]);
 
