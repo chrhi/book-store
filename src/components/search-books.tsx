@@ -3,7 +3,7 @@
 import { useState, useEffect, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 import { getAllLanguages } from "@/lib/actions/product.action";
 
 interface FormData {
@@ -17,7 +17,7 @@ const SearchForm = (): JSX.Element => {
   const [formData, setFormData] = useState<FormData>({
     book: "",
     author: "",
-    language: "Valitse kieli", // Default option
+    language: "Valitse kieli",
   });
 
   const [languages, setLanguages] = useState<string[]>([]);
@@ -26,7 +26,7 @@ const SearchForm = (): JSX.Element => {
   useEffect(() => {
     const fetchLanguages = async () => {
       const langs = await getAllLanguages();
-      const filteredLangs = langs.filter((lang) => lang.trim() !== ""); // Filter out empty or whitespace-only values
+      const filteredLangs = langs.filter((lang) => lang.trim() !== "");
       setLanguages(filteredLangs);
     };
     fetchLanguages();
@@ -43,7 +43,6 @@ const SearchForm = (): JSX.Element => {
   };
 
   const handleSearch = (): void => {
-    // Prevent multiple submissions
     if (isLoading) return;
 
     setIsLoading(true);
@@ -54,7 +53,6 @@ const SearchForm = (): JSX.Element => {
     if (formData.language !== "Valitse kieli")
       searchParams.set("language", formData.language);
 
-    // Simulate a minimum loading time to ensure user sees the loading state
     setTimeout(() => {
       try {
         router.push(`/books?${searchParams.toString()}`);
@@ -66,45 +64,73 @@ const SearchForm = (): JSX.Element => {
   };
 
   return (
-    <div className="h-fit w-full bg-[#F5F5F5] py-8 rounded-2xl">
-      <div className="w-full h-[50px] flex items-center justify-center gap-x-4">
-        <h2 className="text-black text-[32px] font-bold playfair-display">
+    <div className="w-full max-w-4xl mx-auto bg-[#F5F5F5] py-8 rounded-2xl shadow-md">
+      <div className="text-center mb-6">
+        <h2 className="text-black text-3xl font-bold playfair-display">
           PIKAHAKU
         </h2>
       </div>
-      <div className="w-full my-4 flex flex-col items-center min-h-[260px] h-fit gap-x-4">
-        <div className="h-[50px] w-[450px] md:w-[600px] flex items-center justify-center gap-x-2">
-          <span className="text-black font-bold text-2xl">Kirja</span>
+
+      <div className="space-y-4 px-4 sm:px-8 md:px-12">
+        {/* Book Input */}
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <label
+            htmlFor="book-search"
+            className="text-black font-bold text-xl sm:w-1/4 text-center sm:text-right"
+          >
+            Kirja
+          </label>
           <input
-            className="border-black w-[235px] md:w-[385px] bg-white border-[1px] h-[32px] px-2"
+            id="book-search"
+            className="w-full sm:w-3/4 border-black bg-white border rounded-md h-10 px-3 focus:outline-none focus:ring-2 focus:ring-[#FFC767]"
             value={formData.book}
             onChange={(e) => handleInputChange(e, "book")}
             type="text"
+            placeholder="Kirjan nimi"
             aria-label="Book search"
             disabled={isLoading}
           />
         </div>
-        <div className="h-[50px] w-[450px] md:w-[600px] flex items-center justify-center gap-x-2 mr-[37px]">
-          <span className="text-black font-bold text-2xl">Kirjailija</span>
+
+        {/* Author Input */}
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <label
+            htmlFor="author-search"
+            className="text-black font-bold text-xl sm:w-1/4 text-center sm:text-right"
+          >
+            Kirjailija
+          </label>
           <input
-            className="border-black w-[235px] md:w-[385px] bg-white border-[1px] h-[32px] px-2"
+            id="author-search"
+            className="w-full sm:w-3/4 border-black bg-white border rounded-md h-10 px-3 focus:outline-none focus:ring-2 focus:ring-[#FFC767]"
             value={formData.author}
             onChange={(e) => handleInputChange(e, "author")}
             type="text"
+            placeholder="Kirjailijan nimi"
             aria-label="Author search"
             disabled={isLoading}
           />
         </div>
-        <div className="h-[50px] w-[450px] md:w-[600px] flex items-center justify-center gap-x-2">
-          <span className="text-black font-bold text-2xl">Kieli</span>
+
+        {/* Language Select */}
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <label
+            htmlFor="language-select"
+            className="text-black font-bold text-xl sm:w-1/4 text-center sm:text-right"
+          >
+            Kieli
+          </label>
           <select
+            id="language-select"
             value={formData.language}
             onChange={(e) => handleInputChange(e, "language")}
-            className="border-black w-[235px] md:w-[385px] px-2 bg-white border-[1px] h-[32px]"
+            className="w-full sm:w-3/4 border-black bg-white border rounded-md h-10 px-3 focus:outline-none focus:ring-2 focus:ring-[#FFC767]"
             aria-label="Language selection"
             disabled={isLoading}
           >
-            <option disabled>Valitse kieli</option>
+            <option disabled value="Valitse kieli">
+              Valitse kieli
+            </option>
             {languages.map((lang) => (
               <option key={lang} value={lang}>
                 {lang}
@@ -112,19 +138,24 @@ const SearchForm = (): JSX.Element => {
             ))}
           </select>
         </div>
-        <div className="w-full md:w-[600px] h-[100px] flex items-center justify-center md:justify-end md:pr-20">
+
+        {/* Search Button */}
+        <div className="flex justify-center sm:justify-end mt-6">
           <Button
             onClick={handleSearch}
-            className="bg-[#FFC767] cursor-pointer hover:bg-[#da9c33] w-[154px] p-4 px-6 relative"
+            className="bg-[#FFC767] hover:bg-[#da9c33] w-full sm:w-auto px-6 py-3 flex items-center justify-center"
             disabled={isLoading}
           >
             {isLoading ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin absolute left-4" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Haetaan...
               </>
             ) : (
-              "Hae"
+              <>
+                <Search className="mr-2 h-4 w-4" />
+                Hae
+              </>
             )}
           </Button>
         </div>
