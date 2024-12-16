@@ -10,10 +10,11 @@ import {
 import getVendor from "@/lib/getVendor";
 
 interface SearchParams {
-  query: string;
-  language: string;
-  productGroup: string;
-  author: string;
+  query?: string;
+  language?: string;
+  productGroup?: string;
+  author?: string;
+  page?: string;
 }
 
 // Loading component for Suspense
@@ -35,35 +36,43 @@ async function BookSearchContent({
   language,
   productGroup,
   author,
+  page = "1",
 }: {
   query?: string;
   language?: string;
   productGroup?: string;
   author?: string;
+  page?: string;
 }) {
   noStore(); // Disable caching for dynamic content
-  // languages, groups,
-  const [vendor, filteredBooks] = await Promise.all([
-    getVendor(),
-    // getAllLanguages(),
-    // getAllGroups(),
-    findBooks({
-      title: query,
-      language: language,
-      productGroup: productGroup,
-      author: author,
-    }),
-  ]);
+
+  const pageNumber = parseInt(page, 10) || 1;
+
+  const [vendor, { books: filteredBooks, total, totalPages }] =
+    await Promise.all([
+      getVendor(),
+      findBooks({
+        title: query,
+        language: language,
+        productGroup: productGroup,
+        author: author,
+        page: pageNumber,
+        limit: 30, // You can adjust this limit as needed
+      }),
+    ]);
 
   return (
     <BookSearch
       filteredBooks={filteredBooks}
       vendor={vendor}
-      languages={["france"]}
-      groups={["groupe"]}
+      languages={[]}
+      groups={[]}
       query={query ?? ""}
       productGroup={productGroup ?? ""}
       language={language ?? ""}
+      total={total}
+      totalPages={totalPages}
+      currentPage={pageNumber}
     />
   );
 }
@@ -73,10 +82,8 @@ export default async function Page({
 }: {
   searchParams: Promise<SearchParams>;
 }) {
-  const { query, language, productGroup, author } = await searchParams;
+  const { query, language, productGroup, author, page } = await searchParams;
 
-  console.log("this is the query we are getting from the server");
-  console.log(query);
   return (
     <div className="w-full min-h-screen h-fit mt-[160px] pt-16">
       <MaxWidthWrapper>
@@ -86,6 +93,7 @@ export default async function Page({
             language={language}
             productGroup={productGroup}
             author={author}
+            page={page}
           />
         </Suspense>
       </MaxWidthWrapper>

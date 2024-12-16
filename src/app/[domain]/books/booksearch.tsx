@@ -4,6 +4,16 @@
 import { Search, Book as BookIcon } from "lucide-react";
 import ProductReel from "@/components/books-reel";
 import Link from "next/link";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import React from "react";
 
 interface Props {
   filteredBooks: any[];
@@ -13,6 +23,9 @@ interface Props {
   query: string;
   productGroup: string;
   language: string;
+  total: number;
+  totalPages: number;
+  currentPage: number;
 }
 
 const BookSearch = ({
@@ -23,7 +36,41 @@ const BookSearch = ({
   vendor,
   productGroup,
   language,
+  total = 0,
+  totalPages = 1,
+  currentPage = 1,
 }: Props) => {
+  const createPaginationLink = (page: number) => {
+    const params = new URLSearchParams();
+    if (query) params.set("query", query);
+    if (productGroup) params.set("productGroup", productGroup);
+    if (language) params.set("language", language);
+    params.set("page", page.toString());
+    return `/books?${params.toString()}`;
+  };
+
+  // Generate page numbers to display
+  const generatePageNumbers = () => {
+    const pages: number[] = [];
+
+    // Always show first page
+    pages.push(1);
+
+    // Calculate range of pages to show around current page
+    const start = Math.max(2, currentPage - 1);
+    const end = Math.min(totalPages, currentPage + 1);
+
+    // Add pages around current page
+    for (let i = start; i <= end; i++) {
+      if (!pages.includes(i)) pages.push(i);
+    }
+
+    // Always show last page if it's not already included
+    if (!pages.includes(totalPages)) pages.push(totalPages);
+
+    return pages.sort((a, b) => a - b);
+  };
+
   return (
     <div className="w-full flex flex-col gap-8">
       {/* Search Section */}
@@ -35,7 +82,7 @@ const BookSearch = ({
 
         <form
           method="GET"
-          action="/books" // Replace with the correct URL
+          action="/books"
           className="w-full h-fit flex flex-col md:flex-row gap-y-4"
         >
           <div className="w-full md:w-[80%] min-h-[200px] h-fit grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -62,7 +109,7 @@ const BookSearch = ({
               >
                 <option value="">Valitse kieli</option>
                 {languages
-                  .filter((language) => language) // Filters out empty strings or falsy values
+                  .filter((language) => language)
                   .map((language, index) => (
                     <option key={index} value={language}>
                       {language}
@@ -96,7 +143,7 @@ const BookSearch = ({
               Hae
             </button>
             <Link
-              href="/books" // Replace with the URL to reset filters
+              href="/books"
               className="text-gray-600 hover:text-gray-800 transition-colors"
             >
               Tyhjennä haku
@@ -106,15 +153,62 @@ const BookSearch = ({
       </div>
 
       {/* Results Section */}
-      <div className="w-full">
+      <div className="w-full ">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold playfair-display">
-            Hakutulokset ({filteredBooks?.length})
+            Hakutulokset ({total})
           </h2>
         </div>
 
         {filteredBooks?.length > 0 ? (
-          <ProductReel books={filteredBooks} title="Hakutulokset" />
+          <>
+            <ProductReel books={filteredBooks} title="Hakutulokset" />
+
+            {totalPages > 1 && (
+              <Pagination className="my-8">
+                <PaginationContent>
+                  {/* Previous Page */}
+                  {currentPage > 1 && (
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href={createPaginationLink(currentPage - 1)}
+                      />
+                    </PaginationItem>
+                  )}
+
+                  {/* Page Numbers */}
+                  {generatePageNumbers().map((page, index, arr) => (
+                    <React.Fragment key={page}>
+                      {/* Add ellipsis if there's a gap */}
+                      {index > 0 && page > arr[index - 1] + 1 && (
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      )}
+
+                      <PaginationItem>
+                        <PaginationLink
+                          href={createPaginationLink(page)}
+                          isActive={page === currentPage}
+                        >
+                          {page}
+                        </PaginationLink>
+                      </PaginationItem>
+                    </React.Fragment>
+                  ))}
+
+                  {/* Next Page */}
+                  {currentPage < totalPages && (
+                    <PaginationItem>
+                      <PaginationNext
+                        href={createPaginationLink(currentPage + 1)}
+                      />
+                    </PaginationItem>
+                  )}
+                </PaginationContent>
+              </Pagination>
+            )}
+          </>
         ) : (
           <div className="w-full py-16 flex flex-col items-center justify-center text-gray-500">
             <BookIcon size={48} className="mb-4" />

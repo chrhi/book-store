@@ -160,20 +160,25 @@ export async function getBookByIdAction({ id }: { id: string }) {
     return null;
   }
 }
-
 export const findBooks = async ({
   title,
   language,
   productGroup,
   author,
-}: BookSearchParams): Promise<BookDocument[]> => {
+  page = 1,
+  limit = 30,
+}: BookSearchParams & { page?: number; limit?: number }): Promise<{
+  books: BookDocument[];
+  total: number;
+  totalPages: number;
+}> => {
   try {
     // Get the vendor's information early to do a quick check
     const vendor: Vendor | null = await getVendor();
     console.log("Vendor:", vendor); // Add this line to log vendor details
 
     if (!vendor?.antikvaari_id) {
-      return [];
+      return { books: [], total: 0, totalPages: 0 };
     }
 
     console.log(title);
@@ -200,15 +205,27 @@ export const findBooks = async ({
 
     console.log("Full query object:", query); // Log full query object
 
-    // Single-stage aggregation with consolidated matching
-    const books = await product
-      .aggregate([{ $match: query }, { $limit: 30 }])
+    // Pagination calculation
+    const skip = (page - 1) * limit;
+
+    // Aggregation pipeline with pagination
+    const [result] = await product
+      .aggregate([{ $match: query }, { $count: "total" }])
       .exec();
 
-    console.log("Number of books found:", books.length);
-    console.log("Books matching this query:", books);
+    const total = result ? result.total : 0;
+    const totalPages = Math.ceil(total / limit);
 
-    return books as BookDocument[];
+    // Fetch paginated books
+    const books = await product
+      .aggregate([{ $match: query }, { $skip: skip }, { $limit: limit }])
+      .exec();
+
+    return {
+      books: books as BookDocument[],
+      total,
+      totalPages,
+    };
   } catch (error) {
     console.error("Error finding books:", error);
     throw new Error("Failed to retrieve books");
