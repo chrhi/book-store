@@ -64,14 +64,14 @@ const SearchForm = (): JSX.Element => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-[#F5F5F5] py-8 rounded-2xl shadow-md">
-      <div className="text-center mb-6">
+    <div className="w-full my-8 mx-auto bg-[#F5F5F5] py-8 rounded-2xl ">
+      <div className="text-center w-full flex justify-center mb-6">
         <h2 className="text-black text-3xl font-bold playfair-display">
           PIKAHAKU
         </h2>
       </div>
 
-      <div className="space-y-4 px-4 sm:px-8 md:px-12">
+      <div className="space-y-4 max-w-4xl mx-auto px-4 sm:px-8 md:px-12">
         {/* Book Input */}
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <label

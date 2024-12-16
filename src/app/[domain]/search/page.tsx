@@ -5,42 +5,44 @@ import SearchPageLoading from "./loading";
 
 export const dynamic = "force-dynamic"; // Ensures dynamic rendering
 
+interface SearchParams {
+  type?: string;
+  author?: string;
+  title?: string;
+  language?: string;
+  isbn?: string;
+  productGroup?: string;
+  publisher?: string;
+  printYear?: string;
+  subject?: string;
+  condition?: string;
+  days?: string;
+  sortBy?: string;
+  page?: string;
+  itemsPerPage?: string;
+}
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: {
-    type?: string;
-    author?: string;
-    title?: string;
-    language?: string;
-    isbn?: string;
-    productGroup?: string;
-    publisher?: string;
-    printYear?: string;
-    subject?: string;
-    condition?: string;
-    days?: string;
-    sortBy?: string;
-    page?: string;
-    itemsPerPage?: string;
-  };
+  searchParams: Promise<SearchParams>;
 }) {
+  const awaitedSearchParams = await searchParams;
   // Default values and type conversion
   const filters = {
-    type: searchParams.type || "all",
-    author: searchParams.author || "",
-    title: searchParams.title || "",
-    language: searchParams.language || "",
-    isbn: searchParams.isbn || "",
-    productGroup: searchParams.productGroup || "",
-    publisher: searchParams.publisher || "",
-    printYear: searchParams.printYear || "",
-    subject: searchParams.subject || "",
-    condition: parseInt(searchParams.condition || "6"),
-    days: parseInt(searchParams.days || "5"),
-    sortBy: searchParams.sortBy || "author",
-    page: parseInt(searchParams.page || "1"),
-    itemsPerPage: parseInt(searchParams.itemsPerPage || "10"),
+    type: awaitedSearchParams.type || "all",
+    author: awaitedSearchParams.author || "",
+    title: awaitedSearchParams.title || "",
+    language: awaitedSearchParams.language || "",
+    isbn: awaitedSearchParams.isbn || "",
+    productGroup: awaitedSearchParams.productGroup || "",
+    publisher: awaitedSearchParams.publisher || "",
+    printYear: awaitedSearchParams.printYear || "",
+    subject: awaitedSearchParams.subject || "",
+    condition: parseInt(awaitedSearchParams.condition || "6"),
+    days: parseInt(awaitedSearchParams.days || "5"),
+    sortBy: awaitedSearchParams.sortBy || "author",
+    page: parseInt(awaitedSearchParams.page || "1"),
+    itemsPerPage: parseInt(awaitedSearchParams.itemsPerPage || "10"),
   };
 
   // Fetch initial data server-side
