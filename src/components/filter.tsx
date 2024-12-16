@@ -5,7 +5,6 @@ import { useEffect, useState, type FC } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { getAllGroups, getAllLanguages } from "@/lib/actions/product.action";
 
-// Improved type definitions
 export interface FilterType {
   type: "all" | "new" | "used";
   author: string;
@@ -41,7 +40,6 @@ const FilterSidebar: FC<FilterProps> = ({
   const [languages, setLanguages] = useState<string[]>([]);
   const [groups, setGroups] = useState<{ _id: string; nimi: string }[]>([]);
 
-  // Use useCallback to memoize the fetch function
   useEffect(() => {
     const fetchFilterData = async () => {
       try {
@@ -50,11 +48,10 @@ const FilterSidebar: FC<FilterProps> = ({
           getAllGroups(),
         ]);
 
-        setLanguages(lang.filter(Boolean)); // Filter out falsy values
+        setLanguages(lang.filter(Boolean));
         setGroups(g);
       } catch (error) {
         console.error("Error fetching filter data:", error);
-        // Optionally set error state or show user-friendly error message
       }
     };
 
@@ -72,7 +69,6 @@ const FilterSidebar: FC<FilterProps> = ({
     }
   };
 
-  // Render input with common styling and props
   const renderInput = (
     placeholder: string,
     value: string,

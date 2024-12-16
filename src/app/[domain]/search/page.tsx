@@ -1,102 +1,62 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+import { Suspense } from "react";
+import { fetchBooks } from "@/lib/api-calls/fetch-books";
+import SearchPageClient from "./client-page";
+import SearchPageLoading from "./loading";
 
-import { useState, useEffect } from "react";
-import ClientPage from "./client-page";
-import { useSearchParams, useRouter } from "next/navigation";
+export const dynamic = "force-dynamic"; // Ensures dynamic rendering
 
-async function fetchBooks(queryParams: string) {
-  try {
-    console.log("Query Params:", queryParams); // Debug query parameters
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/books?${queryParams}`,
-      {
-        cache: "no-store",
-      }
-    );
-    const data = await response.json();
-    console.log("Fetched Data:", data); // Debug response data
-    return data;
-  } catch (error) {
-    console.log("Error fetching books:", error);
-    return { books: [], totalResults: 0, totalPages: 0, currentPage: 1 };
-  }
-}
-
-const SearchPage = () => {
-  const searchParams = useSearchParams(); // Hook to read query parameters
-  const router = useRouter();
-  // const [loading, setLoading] = useState(false);
-
-  // State for filter and pagination
-  const [filters, setFilters] = useState({
-    type: searchParams.get("type") || "all",
-    author: searchParams.get("author") || "",
-    title: searchParams.get("title") || "",
-    language: searchParams.get("language") || "",
-    isbn: searchParams.get("isbn") || "",
-    productGroup: searchParams.get("productGroup") || "",
-    publisher: searchParams.get("publisher") || "",
-    printYear: searchParams.get("printYear") || "",
-    subject: searchParams.get("subject") || "",
-    condition: parseInt(searchParams.get("condition") || "6"),
-    days: parseInt(searchParams.get("days") || "5"),
-    sortBy: searchParams.get("sortBy") || "author",
-    page: parseInt(searchParams.get("page") || "1"),
-    itemsPerPage: parseInt(searchParams.get("itemsPerPage") || "10"),
-  });
-
-  const [data, setData] = useState({
-    books: [],
-    totalResults: 0,
-    totalPages: 0,
-    currentPage: 1,
-  });
-
-  // Fetch books when filters change
-  useEffect(() => {
-    const fetchData = async () => {
-      const queryParams = new URLSearchParams(filters as any).toString();
-      const fetchedData = await fetchBooks(queryParams);
-
-      console.log(fetchedData);
-
-      setData(fetchedData);
-    };
-    fetchData();
-  }, []);
-
-  // Update filters and sync to URL
-  const updateFilters = async (updatedFilters: Partial<typeof filters>) => {
-    const newFilters = { ...filters, ...updatedFilters };
-    setFilters(newFilters);
-
-    // Update URL without reloading the page
-    const queryParams = new URLSearchParams(newFilters as any).toString();
-    const fetchedData = await fetchBooks(queryParams);
-    setData(fetchedData);
-
-    router.push(`/search?${queryParams}`);
-
-    // window.location.href = `/search?${queryParams}`;
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: {
+    type?: string;
+    author?: string;
+    title?: string;
+    language?: string;
+    isbn?: string;
+    productGroup?: string;
+    publisher?: string;
+    printYear?: string;
+    subject?: string;
+    condition?: string;
+    days?: string;
+    sortBy?: string;
+    page?: string;
+    itemsPerPage?: string;
+  };
+}) {
+  // Default values and type conversion
+  const filters = {
+    type: searchParams.type || "all",
+    author: searchParams.author || "",
+    title: searchParams.title || "",
+    language: searchParams.language || "",
+    isbn: searchParams.isbn || "",
+    productGroup: searchParams.productGroup || "",
+    publisher: searchParams.publisher || "",
+    printYear: searchParams.printYear || "",
+    subject: searchParams.subject || "",
+    condition: parseInt(searchParams.condition || "6"),
+    days: parseInt(searchParams.days || "5"),
+    sortBy: searchParams.sortBy || "author",
+    page: parseInt(searchParams.page || "1"),
+    itemsPerPage: parseInt(searchParams.itemsPerPage || "10"),
   };
 
-  if (data.books.length >= 0) {
-    return (
-      <ClientPage
-        // setLoading={setLoading}
-        books={data.books}
-        totalResults={data.totalResults}
-        totalPages={data.totalPages}
-        currentPage={filters.page}
-        itemsPerPage={filters.itemsPerPage}
-        sortBy={filters.sortBy}
-        filters={filters}
-        setFilters={setFilters}
-        updateFilters={updateFilters}
-      />
-    );
-  }
-};
+  // Fetch initial data server-side
+  const initialData = await fetchBooks(filters);
 
-export default SearchPage;
+  return (
+    <Suspense fallback={<SearchPageLoading />}>
+      <SearchPageClient
+        initialBooks={initialData.books}
+        initialTotalResults={initialData.totalResults}
+        initialTotalPages={initialData.totalPages}
+        initialCurrentPage={filters.page}
+        initialItemsPerPage={filters.itemsPerPage}
+        initialSortBy={filters.sortBy}
+        initialFilters={filters}
+      />
+    </Suspense>
+  );
+}

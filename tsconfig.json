@@ -31,8 +31,8 @@
     "src/app/[domain]/books/booksearch.tsx",
     "src/components/books-reel.js",
     "src/lib/actions/product.action.ts",
-    "src/app/[domain]/search/client-page.ts",
-    "src/app/[domain]/search/client-page.js"
+    "src/app/[domain]/search/client-page.tsx",
+    "src/app/[domain]/search/client-page.tsx"
   ],
   "exclude": ["node_modules"]
 }
