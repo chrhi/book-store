@@ -243,7 +243,7 @@ export const FilterMobile: FC<FilterProps> = ({
       <SheetTrigger asChild>
         <button
           type="button"
-          className="xl:hidden w-[50px] h-[50px] flex items-center justify-center bg-primary px-4 text-white"
+          className=" w-[50px] h-[50px] flex items-center justify-center bg-primary px-4 text-white"
           aria-label="Open Filters"
         >
           <svg

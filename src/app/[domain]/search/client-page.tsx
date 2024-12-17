@@ -12,6 +12,14 @@ import {
   SelectValue,
   SelectItem,
 } from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { BookIcon } from "lucide-react";
 import { fetchBooks } from "@/lib/api-calls/fetch-books";
 import { useRouter } from "next/navigation";
@@ -60,7 +68,6 @@ export default function SearchPageClient({
     // Update URL
     router.push(`/search?${queryParams}`);
 
-    // Fetch new data
     try {
       const data = await fetchBooks(newFilters);
       setBooks(data.books);
@@ -114,6 +121,25 @@ export default function SearchPageClient({
     };
 
     updateFilters(defaultFilters);
+  };
+
+  // Generate page numbers to display
+  const generatePageNumbers = () => {
+    const pageNumbers = [];
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+    // Adjust start page if we're near the end
+    if (endPage === totalPages) {
+      startPage = Math.max(1, totalPages - maxPagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    return pageNumbers;
   };
 
   return (
@@ -199,37 +225,46 @@ export default function SearchPageClient({
                 )}
               </div>
 
-              <div className="pagination-container flex gap-2 justify-center items-center mt-4">
-                <button
-                  className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
-                  disabled={currentPage <= 1}
-                  onClick={() => handlePageChange(currentPage - 1)}
-                >
-                  Previous
-                </button>
-
-                {[...Array(totalPages).keys()].map((i) => (
-                  <button
-                    key={i}
-                    className={`px-4 py-2 rounded ${
-                      i + 1 === currentPage
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-300 hover:bg-gray-400"
-                    }`}
-                    onClick={() => handlePageChange(i + 1)}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
-
-                <button
-                  className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
-                  disabled={currentPage >= totalPages}
-                  onClick={() => handlePageChange(currentPage + 1)}
-                >
-                  Next
-                </button>
-              </div>
+              {totalPages > 1 && (
+                <div className="flex justify-center my-4">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange(currentPage - 1);
+                          }}
+                        />
+                      </PaginationItem>
+                      {generatePageNumbers().map((pageNumber) => (
+                        <PaginationItem key={pageNumber}>
+                          <PaginationLink
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handlePageChange(pageNumber);
+                            }}
+                            isActive={pageNumber === currentPage}
+                          >
+                            {pageNumber}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      <PaginationItem>
+                        <PaginationNext
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange(currentPage + 1);
+                          }}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
-import { getAllBooks } from "@/lib/actions/product.action";
+import { getAllBooksForSearch } from "@/lib/actions/product.action";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-
-  // Get query parameters
   const type = url.searchParams.get("type") || "all";
   const author = url.searchParams.get("author") || "";
   const title = url.searchParams.get("title") || "";
@@ -12,7 +10,7 @@ export async function GET(request: Request) {
   const productGroup = url.searchParams.get("productGroup") || "";
   const publisher = url.searchParams.get("publisher") || "";
   const printYear = url.searchParams.get("printYear") || "";
-  // const subject = url.searchParams.get("subject") || "";
+
   const language = url.searchParams.get("language") || "";
   const condition = parseInt(url.searchParams.get("condition") || "6");
   const days = parseInt(url.searchParams.get("days") || "5");
@@ -21,14 +19,14 @@ export async function GET(request: Request) {
   const itemsPerPage = parseInt(url.searchParams.get("itemsPerPage") || "30");
 
   // Fetch all books
-  const allBooks = await getAllBooks();
+  const allBooks = await getAllBooksForSearch();
 
   // Helper function to calculate the difference in days
   const calculateDaysDifference = (bookDate: string | number | Date) => {
     const currentDate = new Date();
     const bookDateObj = new Date(bookDate);
     const timeDifference = Number(currentDate) - Number(bookDateObj);
-    return Math.floor(timeDifference / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
+    return Math.floor(timeDifference / (1000 * 60 * 60 * 24));
   };
 
   // Map days parameter to actual days range
@@ -68,9 +66,6 @@ export async function GET(request: Request) {
       publisher === "" ||
       book.kustantajaHaku.toLowerCase().includes(publisher.toLowerCase());
     const matchesPrintYear = printYear === "" || book.painovuosi === printYear;
-    // const matchesSubject =
-    //   subject === "" ||
-    //   book.subject?.toLowerCase().includes(subject.toLowerCase());
 
     const bookConditionValue = parseInt(book.kunto.replace("K", ""), 10); // Convert book's 'Kx' to numeric value
     const matchesCondition = condition === 6 || bookConditionValue >= condition;
