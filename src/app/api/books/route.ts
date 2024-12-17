@@ -1,117 +1,139 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
-import { getAllBooksForSearch } from "@/lib/actions/product.action";
+import { connectToDB } from "@/lib/db";
+import getVendor from "@/lib/getVendor";
+import { product } from "@/lib/modals/book.modal";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  const type = url.searchParams.get("type") || "all";
-  const author = url.searchParams.get("author") || "";
-  const title = url.searchParams.get("title") || "";
-  const isbn = url.searchParams.get("isbn") || "";
-  const productGroup = url.searchParams.get("productGroup") || "";
-  const publisher = url.searchParams.get("publisher") || "";
-  const printYear = url.searchParams.get("printYear") || "";
 
-  const language = url.searchParams.get("language") || "";
-  const condition = parseInt(url.searchParams.get("condition") || "6");
-  const days = parseInt(url.searchParams.get("days") || "5");
-  const sortBy = url.searchParams.get("sortBy") || "author";
-  const currentPage = parseInt(url.searchParams.get("page") || "1");
-  const itemsPerPage = parseInt(url.searchParams.get("itemsPerPage") || "30");
+  // Parse query parameters with default values
+  const queryParams = {
+    type: url.searchParams.get("type") || "all",
+    author: url.searchParams.get("author") || "",
+    title: url.searchParams.get("title") || "",
+    isbn: url.searchParams.get("isbn") || "",
+    productGroup: url.searchParams.get("productGroup") || "",
+    publisher: url.searchParams.get("publisher") || "",
+    printYear: url.searchParams.get("printYear") || "",
+    language: url.searchParams.get("language") || "",
+    condition: parseInt(url.searchParams.get("condition") || "6"),
+    days: parseInt(url.searchParams.get("days") || "5"),
+    sortBy: url.searchParams.get("sortBy") || "author",
+    currentPage: parseInt(url.searchParams.get("page") || "1"),
+    itemsPerPage: parseInt(url.searchParams.get("itemsPerPage") || "30"),
+  };
 
-  // Fetch all books
-  const allBooks = await getAllBooksForSearch();
+  await connectToDB();
+  const vendor = await getVendor();
 
-  // Helper function to calculate the difference in days
-  const calculateDaysDifference = (bookDate: string | number | Date) => {
+  // Construct the base query
+  const query: any = { y_id: vendor?.antikvaari_id };
+
+  // Add type filter
+  if (queryParams.type === "new") {
+    query.tila = true;
+  } else if (queryParams.type === "used") {
+    query.tila = false;
+  }
+
+  // Add text-based filters with case-insensitive regex
+  if (queryParams.author) {
+    query.tekija = { $regex: queryParams.author, $options: "i" };
+  }
+
+  if (queryParams.title) {
+    query.nimi = { $regex: queryParams.title, $options: "i" };
+  }
+
+  if (queryParams.language) {
+    query.kieli = { $regex: queryParams.language, $options: "i" };
+  }
+
+  // Add exact match filters
+  if (queryParams.isbn) {
+    query.isbn = queryParams.isbn;
+  }
+
+  if (queryParams.productGroup) {
+    query.tuoteryhma = parseInt(queryParams.productGroup, 10);
+  }
+
+  if (queryParams.publisher) {
+    query.kustantajaHaku = { $regex: queryParams.publisher, $options: "i" };
+  }
+
+  if (queryParams.printYear) {
+    query.painovuosi = queryParams.printYear;
+  }
+
+  // Condition filter
+  if (queryParams.condition !== 6) {
+    query.kunto = {
+      $regex: `^K${queryParams.condition}`,
+      $options: "i",
+    };
+  }
+
+  // Days filter
+  if (queryParams.days !== 5) {
     const currentDate = new Date();
-    const bookDateObj = new Date(bookDate);
-    const timeDifference = Number(currentDate) - Number(bookDateObj);
-    return Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-  };
+    let daysAgo: Date;
 
-  // Map days parameter to actual days range
-  const mapDays = (daysValue: number) => {
-    switch (daysValue) {
+    switch (queryParams.days) {
       case 1:
-        return 1; // 1 day
+        daysAgo = new Date(currentDate.getTime() - 1 * 24 * 60 * 60 * 1000);
+        break;
       case 2:
-        return 7; // 7 days
+        daysAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
       case 3:
-        return 14; // 14 days
+        daysAgo = new Date(currentDate.getTime() - 14 * 24 * 60 * 60 * 1000);
+        break;
       case 4:
-        return 30; // 30 days
-      case 5:
-        return Infinity; // All
+        daysAgo = new Date(currentDate.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
       default:
-        return Infinity; // Default to "all" if invalid
+        daysAgo = new Date(0); // beginning of time
     }
-  };
 
-  // Filter books
-  const filteredBooks = allBooks.filter((book) => {
-    const matchesType =
-      type === "all" || (type === "new" ? book.tila : !book.tila);
-    const matchesAuthor =
-      author === "" || book.tekija.toLowerCase().includes(author.toLowerCase());
-    const matchesTitle =
-      title === "" || book.nimi.toLowerCase().includes(title.toLowerCase());
-    const matchesLanguage =
-      language === "" ||
-      book.kieli.toLowerCase().includes(language.toLowerCase());
-    const matchesISBN = isbn === "" || book.isbn.includes(isbn);
-    const matchesProductGroup =
-      productGroup === "" || book.tuoteryhma === parseInt(productGroup, 10);
+    query.pvm = { $gte: daysAgo };
+  }
 
-    const matchesPublisher =
-      publisher === "" ||
-      book.kustantajaHaku.toLowerCase().includes(publisher.toLowerCase());
-    const matchesPrintYear = printYear === "" || book.painovuosi === printYear;
+  // Determine sort object
+  const sortOptions: any = {};
+  switch (queryParams.sortBy) {
+    case "author":
+      sortOptions.tekija = 1;
+      break;
+    case "title":
+      sortOptions.nimi = 1;
+      break;
+    case "price":
+      sortOptions.hinta = 1;
+      break;
+    default:
+      sortOptions.tekija = 1;
+  }
 
-    const bookConditionValue = parseInt(book.kunto.replace("K", ""), 10); // Convert book's 'Kx' to numeric value
-    const matchesCondition = condition === 6 || bookConditionValue >= condition;
+  // Perform database query with pagination
+  const [totalResults, books] = await Promise.all([
+    product.countDocuments(query),
+    product
+      .find(query)
+      .sort(sortOptions)
+      .skip((queryParams.currentPage - 1) * queryParams.itemsPerPage)
+      .limit(queryParams.itemsPerPage),
+  ]);
 
-    // Days filter
-    const daysDifference = calculateDaysDifference(book.pvm);
-    // Get the maximum days allowed based on the mapping
-    const maxDays = mapDays(days);
-    const matchesDays = maxDays === Infinity || daysDifference <= maxDays;
-
-    // Combine all filters
-    return (
-      matchesType &&
-      matchesAuthor &&
-      matchesTitle &&
-      matchesISBN &&
-      matchesProductGroup &&
-      matchesPublisher &&
-      matchesPrintYear &&
-      // matchesSubject &&
-      matchesLanguage &&
-      matchesCondition &&
-      matchesDays // Include the days filter
-    );
-  });
-
-  // Sort books
-  const sortedBooks = filteredBooks.sort((a, b) => {
-    if (sortBy === "author") return a.tekija.localeCompare(b.tekija);
-    if (sortBy === "title") return a.nimi.localeCompare(b.nimi);
-    if (sortBy === "price") return a.hinta - b.hinta;
-    return 0;
-  });
-
-  // Paginate books
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedBooks = sortedBooks.slice(
-    startIndex,
-    startIndex + itemsPerPage
-  );
+  // Calculate total pages
+  const totalPages = Math.ceil(totalResults / queryParams.itemsPerPage);
 
   return NextResponse.json({
-    books: paginatedBooks,
-    totalResults: filteredBooks.length,
-    totalPages: Math.ceil(filteredBooks.length / itemsPerPage),
-    currentPage,
-    itemsPerPage,
+    books,
+    totalResults,
+    totalPages,
+    currentPage: queryParams.currentPage,
+    itemsPerPage: queryParams.itemsPerPage,
   });
 }
