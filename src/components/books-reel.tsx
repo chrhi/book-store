@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Card from "./book-card";
 
 const ProductReel = ({
   books,
   title,
   desc = "Ehdotukset perustuvat esitetyn tuotteen tekijään, tuoteryhmään tai aiheisiin.",
+}: {
+  books: any[];
+  title: string;
+  desc?: string;
 }) => {
   return (
     <>
