@@ -105,9 +105,8 @@ export async function getBooksAction() {
 export async function getAllBooks() {
   await connectToDB();
   const vendor = await getVendor();
-  const products = await product
-    .find({ y_id: vendor?.antikvaari_id })
-    .limit(15);
+  const products = await product.find({ y_id: vendor?.antikvaari_id });
+
   return products;
 }
 
