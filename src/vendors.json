@@ -235,7 +235,7 @@
     ]
   },
   {
-    "domain": "localhost:3000",
+    "domain": "book-store-roan-psi.vercel.app",
     "_id": {
       "$oid": "0000044df9500e3450893543"
     },
