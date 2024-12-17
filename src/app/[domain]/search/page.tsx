@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Suspense } from "react";
+import { fetchBooks } from "@/lib/api-calls/fetch-books";
 import SearchPageClient from "./client-page";
 import SearchPageLoading from "./loading";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const dynamic = "force-dynamic"; // Ensures dynamic rendering
 
 interface SearchParams {
   type?: string;
@@ -22,45 +21,31 @@ interface SearchParams {
   page?: string;
   itemsPerPage?: string;
 }
-
 export default async function SearchPage({
   searchParams,
 }: {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
-  // Prepare filters with defaults
+  const awaitedSearchParams = await searchParams;
+
   const filters = {
-    type: searchParams.type || "all",
-    author: searchParams.author || "",
-    title: searchParams.title || "",
-    language: searchParams.language || "",
-    isbn: searchParams.isbn || "",
-    productGroup: searchParams.productGroup || "",
-    publisher: searchParams.publisher || "",
-    printYear: searchParams.printYear || "",
-    subject: searchParams.subject || "",
-    condition: parseInt(searchParams.condition || "6"),
-    days: parseInt(searchParams.days || "5"),
-    sortBy: searchParams.sortBy || "author",
-    page: parseInt(searchParams.page || "1"),
-    itemsPerPage: parseInt(searchParams.itemsPerPage || "10"),
+    type: awaitedSearchParams.type || "all",
+    author: awaitedSearchParams.author || "",
+    title: awaitedSearchParams.title || "",
+    language: awaitedSearchParams.language || "",
+    isbn: awaitedSearchParams.isbn || "",
+    productGroup: awaitedSearchParams.productGroup || "",
+    publisher: awaitedSearchParams.publisher || "",
+    printYear: awaitedSearchParams.printYear || "",
+    subject: awaitedSearchParams.subject || "",
+    condition: parseInt(awaitedSearchParams.condition || "6"),
+    days: parseInt(awaitedSearchParams.days || "5"),
+    sortBy: awaitedSearchParams.sortBy || "author",
+    page: parseInt(awaitedSearchParams.page || "1"),
+    itemsPerPage: parseInt(awaitedSearchParams.itemsPerPage || "10"),
   };
 
-  // Fetch initial data from API route
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/search?${new URLSearchParams(
-      filters as any
-    ).toString()}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    }
-  );
-
-  const initialData = await response.json();
+  const initialData = await fetchBooks(filters);
 
   return (
     <Suspense fallback={<SearchPageLoading />}>
